@@ -16,7 +16,7 @@
             <i class="fas fa-wallet ml-4 text-white"></i>
             AhorrADAs
           </h1>
-          <button id="btn-nav" class="text-white text-3xl lg:hidden">
+          <button id="btn-nav" class="text-white text-3xl xl:hidden">
             <i class="fa-solid fa-bars" id="icon-nav"></i>
             <i class="fa fa-times hidden" id="close-nav"></i>
           </button>
@@ -24,7 +24,7 @@
         <ul id="list-nav" class="hidden w-46 bg-slate-50 xl:flex xl:p-8 xl:bg-indigo-400">
           <li id="balance-nav" class="item-nav text-center text-black flex xl:text-white">
             <a
-              href="#"
+              href="index.html"
               id="balance-link"
               class="px-6 py-1 m-2 hover:text-blue-900 lg:rounded lg:hover:bg-indigo-400 lg:hover:text-white flex xl:mt-0"
               ><i class="fa-solid fa-chart-line p-1"></i> Balance</a> 
@@ -169,7 +169,7 @@
     </table>
   </section>
   <!--ADD CATEGORIES SECTION-->
-   <section class="flex flex-col justify-center w-full">
+   <section id="categories-section" class="flex flex-col justify-center w-full">
     <div
     class="hidden rounded shadow bg-slate-50 p-4 m-10"
     id="category-container"
@@ -184,7 +184,7 @@
    </section>
    <!--END OF ADD CATEGORIES SECTION-->
 <!--REPORTS SECTION-->
-<section class="flex flex-col justify-center w-full">
+<section id="reports-section" class="flex flex-col justify-center w-full p-10">
 <div class="hidden rounded shadow bg-slate-50 p-4 m-10" id="reports-div">
 <h4>Reportes</h4>
 <div class="w-10 h-48"></div>
@@ -193,8 +193,8 @@
 </div>
 </section>
 <!--ADD NEW OPERATION FORM-->
-<section class="flex justify-center w-full">
-<form class="form hidden rounded shadow bg-slate-50 w-3/6 p-4">
+<section class="flex justify-center w-full my-10">
+<form id="form-new-operation" class="form hidden rounded shadow bg-slate-50 w-3/6 p-4">
   <div class="w-full">
     <label for="description" class="">Descripcion</label>
     <input
