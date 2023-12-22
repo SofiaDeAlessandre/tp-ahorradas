@@ -5,7 +5,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
 const showElement = (selector) => $(selector).classList.remove("hidden");
 const hideElement = (selector) => $(selector).classList.add("hidden");
 
-/* RENDER */
+/* RENDERS */
 const newOperation = [
   {
     id: 1,
@@ -39,16 +39,16 @@ const newOperation = [
 const renderOperations = (operations) => {
   for (const operation of operations) {
     $("#tableOperations").innerHTML += `
-    <tr>
-     <td>${operation.description}</td>
-     <td>${operation.category}</td>
-     <td>${operation.date}</td>
-     <td>${operation.amount}</td>
-     <td>
-     <button class="text-emerald-500 text-sm font-semibold p-1">editar</button>
-     <button class="text-red-700 text-sm font-semibold p-1">eliminar</button>
-     </td>
-    </tr>
+     <tr>
+      <td>${operation.description}</td>
+      <td>${operation.category}</td>
+      <td>${operation.date}</td>
+      <td>${operation.amount}</td>
+      <td>
+      <button class="text-emerald-500 text-sm font-semibold p-1">editar</button>
+      <button class="text-red-700 text-sm font-semibold p-1">eliminar</button>
+      </td>
+     </tr>
     `;
   }
 };
