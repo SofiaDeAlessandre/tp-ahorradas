@@ -5,37 +5,12 @@ const $$ = (selector) => document.querySelectorAll(selector);
 const showElement = (selector) => $(selector).classList.remove("hidden");
 const hideElement = (selector) => $(selector).classList.add("hidden");
 
+const randomId = () => self.crypto.randomUUID()
+
+const newOperation = [];
+
 /* RENDERS */
-const newOperation = [
-  {
-    id: 1,
-    description: "Viajes",
-    category: "Gasto",
-    date: "1/03/2023",
-    amount: 5466,
-  },
-  {
-    id: 2,
-    description: "Comida",
-    category: "Gasto",
-    date: "5/012/2023",
-    amount: 54,
-  },
-  {
-    id: 3,
-    description: "Compras",
-    category: "Ganancia",
-    date: "10/11/2023",
-    amount: 76576,
-  },
-  {
-    id: 4,
-    description: "Salidas",
-    category: "Gasto",
-    date: "9/09/2023",
-   amount: 9,
-  },
-];
+
 const renderOperations = (operations) => {
   for (const operation of operations) {
     $("#tableOperations").innerHTML += `
@@ -53,6 +28,17 @@ const renderOperations = (operations) => {
   }
 };
 renderOperations(newOperation);
+
+const saveOperations = () => {
+    return {
+        id: randomId(),
+        description: $("#description-new-operation").value ,
+        category: $("#select-new-category").value ,
+        type: $("#select-type-new-operation").value ,
+        date: $("#date-input").value ,
+        amount: $("#amount-new-operation"). value ,
+    }
+}
 
 /* EVENTS*/
 const initialize = () => {
