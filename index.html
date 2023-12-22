@@ -197,40 +197,40 @@
 <section class="flex justify-center w-full my-10">
 <form id="form-new-operation" class="form hidden rounded shadow bg-slate-50 w-3/6 p-4">
   <div class="w-full">
-    <label for="description" class="">Descripcion</label>
+    <label for="description" class="m-2 text-1xl font-bold">Descripción</label>
     <input
       type="text"
-      class="w-full mt-1 bg-slate-50 rounded border shadow"
+      class="w-full p-2 mt-1 bg-slate-50 rounded border shadow"
       name="description"
       id="description-new-operation"
       placeholder="Descripcion"
     />
   </div>
   <div class="">
-    <label for="amount" class="form-label">Monto</label>
+    <label for="amount" class="m-2 form-label text-1xl font-bold">Monto</label>
     <input
       type="number"
-      class="w-full mt-1 bg-slate-50 rounded border shadow"
+      class="w-full p-2 mt-1 bg-slate-50 rounded border shadow"
       name="amount"
       id="amount-new-operation"
       placeholder="0"
     />
   </div>
   <div class="">
-    <label for="type" class="form-control">Tipo</label>
+    <label for="type" class="m-2 form-control text-1xl font-bold">Tipo</label>
     <select
-      class="w-full mt-1 bg-slate-50 rounded border shadow"
+      class="w-full p-2 mt-1 bg-slate-50 rounded border shadow"
       id="select-type-new-operation"
     >
-      <option value="type-amount">Gasto</option>
-      <option value="type-earning">Ganancia</option>
+      <option value="type-amount" class="m-2 text-1xl font-bold">Gasto</option>
+      <option value="type-earning" class="m-2 text-1xl font-bold">Ganancia</option>
     </select>
   </div>
   <div class="">
-    <label for="category">Categoría</label>
+    <label for="category" class="m-2 text-1xl font-bold">Categoría</label>
     <select
       id="select-new-category"
-      class="w-full mt-1 bg-slate-50 rounded border shadow"
+      class="w-full p-2 mt-1 bg-slate-50 rounded border shadow"
     >
     <option value="">Comida</option>
     <option value="">Servicios</option>
@@ -243,23 +243,23 @@
     </select>
   </div>
   <div>
-    <label>Fecha</label>
+    <label class="m-2 text-1xl font-bold">Fecha</label>
     <input
       type="date"
       id="date-input"
-      class="w-full mt-1 bg-slate-50 rounded border shadow"
+      class="w-full p-2 mt-1 bg-slate-50 rounded border shadow"
     />
   </div>
-  <div class="">
-    <button class="rounded shadow" id="btn-cancel-operation">Cancelar</button>
+  <div class="flex flex-row-reverse">
+    <button class="rounded shadow m-2 p-2" id="btn-cancel-operation">Cancelar</button>
     <button
-      class="btn bg-green-400 rounded shadow text-white"
+      class="btn bg-green-400 rounded shadow text-white m-2 p-2"
       id="btn-add-operation"
     >
       Agregar
     </button>
     <button
-    class="btn bg-green-400 rounded shadow text-white"
+    class="btn bg-green-400 rounded shadow text-white m-2 p-2"
     id="btn-add-operation"
   >
     Editar
