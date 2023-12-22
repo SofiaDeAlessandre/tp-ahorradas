@@ -61,21 +61,21 @@ const initialize = () => {
   $("#form-new-operation").addEventListener("click", (e) => {
     e.preventDefault();
   });
-};
-window.addEventListener("load", initialize);
-//HAMBURGUER MENU
 
+  //HAMBURGUER MENU
 $("#icon-nav").addEventListener("click", () => {
-  showColumn();
+  showElement("#list-nav")
+  hideElement("#icon-nav")
+  showElement("#list-nav")
+  showElement("#close-nav")
 });
 
 $("#close-nav").addEventListener("click", () => {
-  showColumn();
+  hideElement("#list-nav")
+  showElement("#icon-nav")
+  hideElement("#list-nav")
+  hideElement("#close-nav")
 });
 
-const showColumn = () => {
-  $("#list-nav").classList.toggle("hidden");
-  $("#icon-nav").classList.toggle("hidden");
-  $("#list-nav").classList.toggle("flex-col");
-  $("#close-nav").classList.toggle("hidden");
 };
+window.addEventListener("load", initialize);
