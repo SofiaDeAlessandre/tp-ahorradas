@@ -7,7 +7,10 @@ const hideElement = (selector) => $(selector).classList.add("hidden");
 
 const randomId = () => self.crypto.randomUUID()
 
-const newOperations = [];
+const getData = (key) => JSON.parse(localStorage.getItem(key))
+const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
+
+const allOperations = getData("operations") || []
 
 /* RENDERS */
 
@@ -27,7 +30,6 @@ const renderOperations = (operations) => {
     `;
   }
 };
-renderOperations(newOperations);
 
 const saveOperations = () => {
     return {
@@ -41,7 +43,10 @@ const saveOperations = () => {
 }
 
 /* EVENTS*/
+
 const initialize = () => {
+  setData("operations", allOperations)
+  renderOperations(allOperations)
   $("#categories-nav").addEventListener("click", () => {
     showElement("#category-container");
     hideElement("#main-view");
@@ -78,8 +83,13 @@ $("#close-nav").addEventListener("click", () => {
 $("#btn-add-operation").addEventListener("click", (e) => {
   e.preventDefault();
   const newOperation = saveOperations()
-  newOperations.push(newOperation) //<------LS
-  console.log(newOperations)
+  const currentData = getData("operations")
+  currentData.push(saveOperations())
+  setData("operations", currentData)
+  hideElement("#no-results")
+  hideElement("#form-new-operation")
+  showElement("#main-view")
 })
 };
+
 window.addEventListener("load", initialize);
