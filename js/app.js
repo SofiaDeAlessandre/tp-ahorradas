@@ -23,7 +23,7 @@ const renderOperations = (operations) => {
       <td>${operation.date}</td>
       <td>${operation.amount}</td>
       <td>
-      <button class="text-emerald-500 text-sm font-semibold p-1">editar</button>
+      <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormEdit('${operation.id}')">editar</button>
       <button class="text-red-700 text-sm font-semibold p-1">eliminar</button>
       </td>
      </tr>
@@ -41,6 +41,21 @@ const saveOperations = () => {
         amount: $("#amount-new-operation"). value ,
     }
 }
+
+const showFormEdit = (operationId) => {
+  showElement("#form-new-operation")
+  hideElement("#main-view")
+  hideElement("#tableOperations")
+  showElement("#btn-edit-operation")
+  hideElement("#btn-cancel-operation")
+  hideElement("#btn-add-operation")
+  const operationSelected = getData("operations").find(operation => operation.id === operationId)
+  $("#description-new-operation").value = operationSelected.description
+  $("#select-new-category").value = operationSelected.category
+  $("#date-input").value = operationSelected.date
+  $("#amount-new-operation").value = operationSelected.amount
+}
+//el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
 /* EVENTS*/
 
@@ -62,7 +77,6 @@ const initialize = () => {
   $("#btn-new-operation").addEventListener("click", () => {
     showElement("#form-new-operation");
     hideElement("#main-view");
-    hideElement("#btn-cancel-operation");
     hideElement("#btn-edit-operation")
   });
   // $("#form-new-operation").addEventListener("click", (e) => {
@@ -90,6 +104,14 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   hideElement("#form-new-operation")
   showElement("#main-view")
 })
+$("#btn-edit-operation").addEventListener("click", (e) => {
+e.preventDefault()
+})
+$("#btn-cancel-operation").addEventListener("click", (e) => {
+  e.preventDefault()
+  })
+  
 };
+
 
 window.addEventListener("load", initialize);
