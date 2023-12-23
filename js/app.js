@@ -7,7 +7,7 @@ const hideElement = (selector) => $(selector).classList.add("hidden");
 
 const randomId = () => self.crypto.randomUUID()
 
-const newOperation = [];
+const newOperations = [];
 
 /* RENDERS */
 
@@ -27,7 +27,7 @@ const renderOperations = (operations) => {
     `;
   }
 };
-renderOperations(newOperation);
+renderOperations(newOperations);
 
 const saveOperations = () => {
     return {
@@ -57,25 +57,29 @@ const initialize = () => {
   $("#btn-new-operation").addEventListener("click", () => {
     showElement("#form-new-operation");
     hideElement("#main-view");
+    hideElement("#btn-cancel-operation");
+    hideElement("#btn-edit-operation")
   });
-  $("#form-new-operation").addEventListener("click", (e) => {
-    e.preventDefault();
-  });
-
-  //HAMBURGUER MENU
+  // $("#form-new-operation").addEventListener("click", (e) => {
+  //   e.preventDefault();
+  // });
 $("#icon-nav").addEventListener("click", () => {
   showElement("#list-nav")
   hideElement("#icon-nav")
   showElement("#list-nav")
   showElement("#close-nav")
 });
-
 $("#close-nav").addEventListener("click", () => {
   hideElement("#list-nav")
   showElement("#icon-nav")
   hideElement("#list-nav")
   hideElement("#close-nav")
 });
-
+$("#btn-add-operation").addEventListener("click", (e) => {
+  e.preventDefault();
+  const newOperation = saveOperations()
+  newOperations.push(newOperation) //<------LS
+  console.log(newOperations)
+})
 };
 window.addEventListener("load", initialize);
