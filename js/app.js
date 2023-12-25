@@ -2,9 +2,16 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
-const showElement = (selector) => $(selector).classList.remove("hidden");
-const hideElement = (selector) => $(selector).classList.add("hidden");
-
+const showElement = (selectors) => {
+  for(const selector of selectors){
+      $(selector).classList.remove("hidden")
+  }
+}
+const hideElement = (selectors) => {
+  for (const selector of selectors){
+      $(selector).classList.add("hidden")
+  }
+}
 const randomId = () => self.crypto.randomUUID()
 
 const getData = (key) => JSON.parse(localStorage.getItem(key))
@@ -45,12 +52,8 @@ const saveOperations = () => {
 }
 
 const showFormEdit = (operationId) => {
-  showElement("#form-new-operation")
-  hideElement("#main-view")
-  hideElement("#tableOperations")
-  showElement("#btn-edit-operation")
-  hideElement("#btn-cancel-operation")
-  hideElement("#btn-add-operation")
+  showElement(["#form-new-operation","#btn-edit-operation"])
+  hideElement(["#main-view", "#tableOperations","#btn-cancel-operation","#btn-add-operation"])
   const operationSelected = getData("operations").find(operation => operation.id === operationId)
   $("#description-new-operation").value = operationSelected.description
   $("#select-new-category").value = operationSelected.category
@@ -65,36 +68,27 @@ const initialize = () => {
   setData("operations", allOperations)
   renderOperations(allOperations)
   $("#categories-nav").addEventListener("click", () => {
-    showElement("#category-container");
-    hideElement("#main-view");
-    hideElement("#reports-div");
-    hideElement("#form-new-operation");
+    showElement(["#category-container"]);
+    hideElement(["#main-view","#reports-div","#form-new-operation"]);
   });
   $("#reports-link").addEventListener("click", () => {
-    showElement("#reports-div");
-    hideElement("#main-view");
-    hideElement("#category-container");
-    hideElement("#form-new-operation");
+    showElement(["#reports-div"]);
+    hideElement(["#main-view","#category-container","#form-new-operation"]);
   });
   $("#btn-new-operation").addEventListener("click", () => {
-    showElement("#form-new-operation");
-    hideElement("#main-view");
-    hideElement("#btn-edit-operation")
+    showElement(["#form-new-operation"]);
+    hideElement(["#main-view","#btn-edit-operation"]);
   });
   // $("#form-new-operation").addEventListener("click", (e) => {
   //   e.preventDefault();
   // });
 $("#icon-nav").addEventListener("click", () => {
-  showElement("#list-nav")
-  hideElement("#icon-nav")
-  showElement("#list-nav")
-  showElement("#close-nav")
+  showElement(["#list-nav","#list-nav","#close-nav"])
+  hideElement(["#icon-nav"])
 });
 $("#close-nav").addEventListener("click", () => {
-  hideElement("#list-nav")
-  showElement("#icon-nav")
-  hideElement("#list-nav")
-  hideElement("#close-nav")
+  hideElement(["#list-nav","#list-nav","#close-nav"])
+  showElement(["#icon-nav"])
 });
 $("#btn-add-operation").addEventListener("click", (e) => {
   e.preventDefault();
@@ -102,9 +96,8 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   const currentData = getData("operations")
   currentData.push(saveOperations())
   setData("operations", currentData)
-  hideElement("#no-results")
-  hideElement("#form-new-operation")
-  showElement("#main-view")
+  hideElement(["#no-results","#form-new-operation"])
+  showElement(["#main-view"])
 })
 $("#btn-edit-operation").addEventListener("click", (e) => {
 e.preventDefault()
