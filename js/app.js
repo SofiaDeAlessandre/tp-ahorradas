@@ -12,6 +12,8 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const allOperations = getData("operations") || []
 
+let currentDate = new Date().toJSON().slice(0, 10);
+
 /* RENDERS */
 
 const renderOperations = (operations) => {
@@ -110,8 +112,8 @@ e.preventDefault()
 $("#btn-cancel-operation").addEventListener("click", (e) => {
   e.preventDefault()
   })
-  
+$("#date-input").value = currentDate
+$("#since-date").value = currentDate
 };
-
 
 window.addEventListener("load", initialize);
