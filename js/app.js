@@ -53,12 +53,14 @@ const saveOperations = () => {
 
 const showFormEdit = (operationId) => {
   showElement(["#form-new-operation","#btn-edit-operation"])
-  hideElement(["#main-view", "#tableOperations","#btn-cancel-operation","#btn-add-operation"])
+  hideElement(["#main-view", "#tableOperations","#btn-add-operation"])
+  $("#btn-edit-operation").setAttribute("data-id", operationId)
   const operationSelected = getData("operations").find(operation => operation.id === operationId)
   $("#description-new-operation").value = operationSelected.description
   $("#select-new-category").value = operationSelected.category
   $("#date-input").value = operationSelected.date
   $("#amount-new-operation").value = operationSelected.amount
+  $("#select-type-new-operation").value = operationSelected.type
 }
 //el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
@@ -71,10 +73,12 @@ const initialize = () => {
     showElement(["#category-container"]);
     hideElement(["#main-view","#reports-div","#form-new-operation"]);
   });
+
   $("#reports-link").addEventListener("click", () => {
     showElement(["#reports-div"]);
     hideElement(["#main-view","#category-container","#form-new-operation"]);
   });
+
   $("#btn-new-operation").addEventListener("click", () => {
     showElement(["#form-new-operation"]);
     hideElement(["#main-view","#btn-edit-operation"]);
@@ -86,10 +90,12 @@ $("#icon-nav").addEventListener("click", () => {
   showElement(["#list-nav","#list-nav","#close-nav"])
   hideElement(["#icon-nav"])
 });
+
 $("#close-nav").addEventListener("click", () => {
   hideElement(["#list-nav","#list-nav","#close-nav"])
   showElement(["#icon-nav"])
 });
+
 $("#btn-add-operation").addEventListener("click", (e) => {
   e.preventDefault();
   const newOperation = saveOperations()
@@ -99,11 +105,23 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   hideElement(["#no-results","#form-new-operation"])
   showElement(["#main-view"])
 })
+
 $("#btn-edit-operation").addEventListener("click", (e) => {
 e.preventDefault()
+const operationId = $("#btn-edit-operation").getAttribute("data-id")
+const currentData = getData("operations").map(operation => {
+  if (operation.id === operationId) {
+    return saveOperations()
+  }
+  return operation
 })
+setData("operations", currentData)
+window.location.reload()
+})
+
 $("#btn-cancel-operation").addEventListener("click", (e) => {
   e.preventDefault()
+  window.location.reload() //CONSULTAR POR EL EVENTO PARA QUE EL BTN CANCELAR RECARGUE EL NAVEGADOR
   })
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
