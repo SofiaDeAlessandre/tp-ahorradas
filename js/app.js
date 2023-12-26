@@ -12,6 +12,7 @@ const hideElement = (selectors) => {
       $(selector).classList.add("hidden")
   }
 }
+
 const randomId = () => self.crypto.randomUUID()
 
 const getData = (key) => JSON.parse(localStorage.getItem(key))
@@ -47,7 +48,7 @@ const saveOperations = () => {
         category: $("#select-new-category").value ,
         type: $("#select-type-new-operation").value ,
         date: $("#date-input").value ,
-        amount: $("#amount-new-operation"). value ,
+        amount: $("#amount-new-operation").valueAsNumber , //NO TOMA ASNUMBER
     }
 }
 
@@ -62,6 +63,7 @@ const showFormEdit = (operationId) => {
   $("#amount-new-operation").value = operationSelected.amount
   $("#select-type-new-operation").value = operationSelected.type
 }
+
 //el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
 /* EVENTS*/
@@ -123,6 +125,7 @@ $("#btn-cancel-operation").addEventListener("click", (e) => {
   e.preventDefault()
   window.location.reload() //CONSULTAR POR EL EVENTO PARA QUE EL BTN CANCELAR RECARGUE EL NAVEGADOR
   })
+
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
 };
