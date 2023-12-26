@@ -62,6 +62,7 @@ const renderOperations = (operations) => {
   cleanContainer("#tableOperations")
   for (const operation of operations) {
     const categorySelected = getData("categories").find(cat => cat.id === operation.category)
+    console.log(operation.category)
     console.log(categorySelected)
     $("#tableOperations").innerHTML += `
      <tr>
@@ -114,7 +115,7 @@ const renderCategoriesOptions = (newCategories) => {
 }
 
 const saveOperations = () => {
-    const categoryId = $("#select-new-category").options[$("#categories-select").selectedIndex].getAttribute("data-id")
+    const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
     return {
         id: randomId(),
         description: $("#description-new-operation").value ,
