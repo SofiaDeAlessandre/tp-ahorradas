@@ -1,3 +1,4 @@
+
 /* UTILITIES */
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
@@ -15,16 +16,50 @@ const hideElement = (selectors) => {
 
 const randomId = () => self.crypto.randomUUID()
 
+
+const defaultCategories = [
+  {
+      id: randomId(),
+      categoryName: "Comida"
+  },
+  {
+      id: randomId(),
+      categoryName: "Servicios"
+  },
+  {
+      id: randomId(),
+      categoryName: "Salidas"
+  },
+  {
+      id: randomId(),
+      categoryName: "Educación"
+  },
+  {
+    id: randomId(),
+    categoryName: "Transporte"
+},
+{
+    id: randomId(),
+    categoryName: "Trabajo"
+}
+
+]
+
 const getData = (key) => JSON.parse(localStorage.getItem(key))
 const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const allOperations = getData("operations") || []
+const allCategories = getData("categories") || defaultCategories
 
 let currentDate = new Date().toJSON().slice(0, 10);
+
+const cleanContainer = selector => selector.innerHTML = "";
+
 
 /* RENDERS */
 
 const renderOperations = (operations) => {
+  cleanContainer("#tableOperations")
   for (const operation of operations) {
     $("#tableOperations").innerHTML += `
      <tr>
@@ -34,22 +69,64 @@ const renderOperations = (operations) => {
       <td>${operation.amount}</td>
       <td>
       <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormEdit('${operation.id}')">editar</button>
-      <button class="text-red-700 text-sm font-semibold p-1">eliminar</button>
+      <button class="text-red-700 text-sm font-semibold p-1" onclick="deleteOperations('${operation.id}')">eliminar</button>
       </td>
      </tr>
     `;
   }
 };
 
+
+const renderCategoriesTable = (categories) => {
+  cleanContainer("#category-container")
+  for(const category of categories){
+      $("#category-container").innerHTML += `
+      <div> 
+      <span>
+          <div class="columns-4xl">${category.categoryName}
+          <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormCategory('${category.id}')"> editar </button>
+          <button class="text-red-700 text-sm font-semibold p-1" onclick="deleteCategories ('${category.id}')"> eliminar </button>
+          </span>
+              </div>
+              </div>
+              
+      `
+  }
+
+}
+
+const renderCategoriesOptions = (newCategories) => {
+  for(const category of newCategories){
+      $("#select-new-category").innerHTML += `
+      <option value="${category.id}" data-id="${category.id}">${category.categoryName}</option> 
+
+      `
+  }
+}
+
 const saveOperations = () => {
     return {
         id: randomId(),
         description: $("#description-new-operation").value ,
-        category: $("#select-new-category").value ,
+        category: $("#select-new-category").value,
         type: $("#select-type-new-operation").value ,
         date: $("#date-input").value ,
         amount: $("#amount-new-operation").valueAsNumber , //NO TOMA ASNUMBER
     }
+}
+
+const saveCategoryData = () => {
+  return {
+    id: randomId(),
+    categoryName: $("#categories").value
+  };
+}
+
+const addCategory = () => {
+  const currentCategories = getData("categories")
+  const newCategory = saveCategoryData()
+  currentCategories.push(newCategory)
+  setData("categories", currentCategories)
 }
 
 const showFormEdit = (operationId) => {
@@ -64,13 +141,36 @@ const showFormEdit = (operationId) => {
   $("#select-type-new-operation").value = operationSelected.type
 }
 
+const showFormCategory = (categoryId) => {
+  showElement(["#categories-edit"])
+  hideElement(["#main-view", "#tableOperations","#btn-add-operation","#form-new-operation","#categories-section"])
+  $("#btn-edit-category").setAttribute("data-id", categoryId)
+  const categorySelected = getData("categories").find(cat => cat.id === categoryId)
+  $("#select-new-category").value = categorySelected.categoryId
+}
+
 //el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
+
+const deleteOperations = (operationId) => {
+  const currentData = getData("operations").filter(op=> op.id !== operationId)
+  setData("operations", currentData)
+}
+
+const deleteCategories = (categoryId) => {
+  const currentData = getData("categories").filter(cat => cat.id !== categoryId)
+  setData("categories", currentData)
+}
+
 
 /* EVENTS*/
 
 const initialize = () => {
   setData("operations", allOperations)
+  setData("categories", allCategories)
   renderOperations(allOperations)
+  renderCategoriesTable(allCategories)
+  renderCategoriesOptions(allCategories)
+
   $("#categories-nav").addEventListener("click", () => {
     showElement(["#category-container"]);
     hideElement(["#main-view","#reports-div","#form-new-operation"]);
@@ -129,5 +229,17 @@ $("#btn-cancel-operation").addEventListener("click", (e) => {
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
 };
+
+$("#categories-nav").addEventListener("click", () => {
+  showElement(["#category-container"]);
+  hideElement(["#main-view","#reports-div","#form-new-operation"]);
+});
+$("#btn-add-category").addEventListener("click", () => {
+  e.preventDefault()
+  addCategory()
+  const currentCategories = getData("categories")
+  renderCategoriesOptions(currentCategories)
+  renderCategoriesTable(currentCategories)
+})
 
 window.addEventListener("load", initialize);
