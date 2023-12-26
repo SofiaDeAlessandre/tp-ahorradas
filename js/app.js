@@ -61,10 +61,12 @@ const cleanContainer = selector => selector.innerHTML = "";
 const renderOperations = (operations) => {
   cleanContainer("#tableOperations")
   for (const operation of operations) {
+    const categorySelected = getData("categories").find(cat => cat.id === operation.category)
+    console.log(categorySelected)
     $("#tableOperations").innerHTML += `
      <tr>
       <td>${operation.description}</td>
-      <td>${operation.category}</td>
+      <td>${categorySelected.categoryName}</td>
       <td>${operation.date}</td>
       <td>${operation.amount}</td>
       <td>
@@ -96,19 +98,27 @@ const renderCategoriesTable = (categories) => {
 }
 
 const renderCategoriesOptions = (newCategories) => {
+  // cleanContainer("#select-new-category")
   for(const category of newCategories){
       $("#select-new-category").innerHTML += `
       <option value="${category.id}" data-id="${category.id}">${category.categoryName}</option> 
 
       `
   }
+      for(const category of newCategories){
+        $("#categories-select").innerHTML += `
+        <option value="${category.id}" data-id="${category.id}">${category.categoryName}</option> 
+  
+        `
+  }
 }
 
 const saveOperations = () => {
+    const categoryId = $("#select-new-category").options[$("#categories-select").selectedIndex].getAttribute("data-id")
     return {
         id: randomId(),
         description: $("#description-new-operation").value ,
-        category: $("#select-new-category").value,
+        category: categoryId,
         type: $("#select-type-new-operation").value ,
         date: $("#date-input").value ,
         amount: $("#amount-new-operation").valueAsNumber , //NO TOMA ASNUMBER
@@ -152,7 +162,7 @@ const showFormCategory = (categoryId) => {
 //el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
 const deleteOperations = (operationId) => {
-  const currentData = getData("operations").filter(op=> op.id !== operationId)
+  const currentData = getData("operations").filter(op => op.id !== operationId)
   setData("operations", currentData)
 }
 
