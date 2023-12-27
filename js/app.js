@@ -119,10 +119,10 @@ const renderCategoriesOptions = (newCategories) => {
   }
 }
 
-const saveOperations = () => {
+const saveOperations = (operationId) => {
     const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
     return {
-        id: randomId(),
+        id: operationId ? operationId : randomId(),
         description: $("#description-new-operation").value ,
         category: categoryId,
         type: $("#select-type-new-operation").value ,
@@ -230,7 +230,7 @@ e.preventDefault()
 const operationId = $("#btn-edit-operation").getAttribute("data-id")
 const currentData = getData("operations").map(operation => {
   if (operation.id === operationId) {
-    return saveOperations()
+    return saveOperations(operationId)
   }
   return operation
 })
