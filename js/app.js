@@ -170,6 +170,7 @@ const showFormCategory = (categoryId) => {
 const deleteOperations = (operationId) => {
   const currentData = getData("operations").filter(op => op.id !== operationId)
   setData("operations", currentData)
+  window.location.reload()
 }
 
 const deleteCategories = (categoryId) => {
