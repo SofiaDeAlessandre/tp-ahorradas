@@ -65,10 +65,10 @@ const cleanContainer = selector => selector.innerHTML = "";
 
 const renderOperations = (operations) => {
   cleanContainer("#tableOperations")
+  if(operations.length) {
+    hideElement(["#no-results"])
   for (const operation of operations) {
     const categorySelected = getData("categories").find(cat => cat.id === operation.category)
-    console.log(operation.category)
-    console.log(categorySelected)
     $("#tableOperations").innerHTML += `
      <tr>
       <td>${operation.description}</td>
@@ -82,6 +82,10 @@ const renderOperations = (operations) => {
      </tr>
     `;
   }
+} else {
+  showElement(["#no-results"])
+  hideElement(["#tableOperations"])
+}
 };
 
 
@@ -221,8 +225,10 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   const currentData = getData("operations")
   currentData.push(saveOperations())
   setData("operations", currentData)
-  hideElement(["#no-results","#form-new-operation"])
-  showElement(["#main-view"])
+   hideElement(["#form-new-operation"])
+  //showElement(["#main-view"])
+  // showElement(["#tableOperations"])
+  window.location.reload() // CONSULTAR ESTE EVENTO EN EL BOTON 
 })
 
 $("#btn-edit-operation").addEventListener("click", (e) => {
