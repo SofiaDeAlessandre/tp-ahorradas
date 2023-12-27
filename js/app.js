@@ -13,6 +13,11 @@ const hideElement = (selectors) => {
       $(selector).classList.add("hidden")
   }
 }
+const hideShowElement = (selectors) => {
+  for (const selector of selectors){
+    $(selector).classList.toggle("hidden")
+  }
+}
 
 const randomId = () => self.crypto.randomUUID()
 
@@ -87,8 +92,8 @@ const renderCategoriesTable = (categories) => {
       <div> 
       <span>
           <div class="columns-4xl">${category.categoryName}
-          <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormCategory('${category.id}')"> editar </button>
-          <button class="text-red-700 text-sm font-semibold p-1" onclick="deleteCategories ('${category.id}')"> eliminar </button>
+          <button class="text-emerald-500 text-sm font-semibold p-6" onclick="showFormCategory('${category.id}')"> editar </button>
+          <button class="text-red-700 text-sm font-semibold p-6" onclick="deleteCategories ('${category.id}')"> eliminar </button>
           </span>
               </div>
               </div>
@@ -239,6 +244,10 @@ $("#btn-cancel-operation").addEventListener("click", (e) => {
 
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
+
+$("#btn-hide-filters").addEventListener("click", () => {
+  hideShowElement(["#filter-types","#category-filters","#since-filters","#order-filters"])
+})
 };
 
 $("#categories-nav").addEventListener("click", () => {

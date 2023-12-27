@@ -81,40 +81,40 @@
       <!--FILTERS CONTAINER-->
       <div
         id="filters-container"
-        class="w-10/12 h-80 m-4 rounded shadow bg-slate-50 lg:w-80"
+        class="w-10/12 h-auto m-4 rounded shadow bg-slate-50 lg:w-80"
       >
         <div class="flex p-2 justify-between">
-          <h3 class="text-xl font-semibold">Filtros</h3>
-          <button class="text-sky-700">Ocultar filtros</button>
+          <h3 class="text-xl font-semibold p-2">Filtros</h3>
+          <button id="btn-hide-filters" class="text-sky-700">Ocultar filtros</button>
         </div>
-        <div id="filter-types" class="mb-2">
-          <label for="type">Tipo</label>
-          <select id="select-type" class="w-full mt-1 rounded border shadow">
+        <div id="filter-types" class="mb-1 p-2">
+          <label for="type" class="">Tipo</label>
+          <select id="select-type" class="w-full mt-3 rounded border shadow">
             <option value="all">Todos</option>
             <option value="expenses">Gastos</option>
             <option value="earnings">Ganancias</option>
           </select>
         </div>
-        <div class="mb-2">
+        <div id="category-filters" class="mb-1 p-2">
           <label for="categories">Categorias:</label>
           <select
             id="categories-select"
-            class="w-full mt-1 rounded border shadow">
+            class="w-full mt-3 rounded border shadow">
           <option value="">Todas</option>
             <!--RENDERING NEW CATEGORIES FROM JS-->
           </select>
         </div>
-        <div id="since" class="mb-2">
+        <div id="since-filters" class="mb-1 p-2">
           <label>Desde:</label>
           <input
             type="date"
             id="since-date"
-            class="w-full mt-1 rounded border shadow"
+            class="w-full mt-3 rounded border shadow"
           />
         </div>
-        <div class="mb-2">
+        <div id="order-filters" class="mb-1 p-2">
           <label class="">Ordenar por: </label>
-          <select class="w-full rounded border shadow" id="filter-order">
+          <select class="w-full rounded border shadow mt-3" id="filter-order">
             <option value="more-recent">Más reciente</option>
             <option value="less-recent">Menos reciente</option>
             <option value="higher-amount">Mayor monto</option>
