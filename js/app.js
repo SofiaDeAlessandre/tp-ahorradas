@@ -71,11 +71,11 @@ const renderOperations = (operations) => {
     const categorySelected = getData("categories").find(cat => cat.id === operation.category)
     $("#tableOperations").innerHTML += `
      <tr>
-      <td>${operation.description}</td>
-      <td>${categorySelected.categoryName}</td>
-      <td>${operation.date}</td>
-      <td>${operation.amount}</td>
-      <td>
+      <td class="text-center">${operation.description}</td>
+      <td class="text-center">${categorySelected.categoryName}</td>
+      <td class="text-center">${operation.date}</td>
+      <td class="text-center">$${operation.amount}</td>
+      <td class="text-center">
       <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormEdit('${operation.id}')">editar</button>
       <button class="text-red-700 text-sm font-semibold p-1" onclick="deleteOperations('${operation.id}')">eliminar</button>
       </td>
@@ -183,6 +183,7 @@ const deleteCategories = (categoryId) => {
 }
 
 
+
 /* EVENTS*/
 
 const initialize = () => {
@@ -191,7 +192,7 @@ const initialize = () => {
   renderOperations(allOperations)
   renderCategoriesTable(allCategories)
   renderCategoriesOptions(allCategories)
-
+  
   $("#categories-nav").addEventListener("click", () => {
     showElement(["#category-container"]);
     hideElement(["#main-view","#reports-div","#form-new-operation"]);
@@ -226,9 +227,7 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   currentData.push(saveOperations())
   setData("operations", currentData)
    hideElement(["#form-new-operation"])
-  //showElement(["#main-view"])
-  // showElement(["#tableOperations"])
-  window.location.reload() // CONSULTAR ESTE EVENTO EN EL BOTON 
+  window.location.reload() 
 })
 
 $("#btn-edit-operation").addEventListener("click", (e) => {
@@ -246,7 +245,7 @@ window.location.reload()
 
 $("#btn-cancel-operation").addEventListener("click", (e) => {
   e.preventDefault()
-  window.location.reload() //CONSULTAR POR EL EVENTO PARA QUE EL BTN CANCELAR RECARGUE EL NAVEGADOR
+  window.location.reload() 
   })
 
 $("#date-input").value = currentDate
