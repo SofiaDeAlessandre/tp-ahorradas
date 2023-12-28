@@ -253,8 +253,14 @@ $("#date-input").value = currentDate
 $("#since-date").value = currentDate
 
 $("#btn-hide-filters").addEventListener("click", () => {
-  hideShowElement(["#filter-types","#category-filters","#since-filters","#order-filters"])
+  hideElement(["#filter-types","#category-filters","#since-filters","#order-filters","#btn-hide-filters"])
+  showElement(["#btn-show-filters"])
 })
+$("#btn-show-filters").addEventListener("click", () => {
+  showElement(["#filter-types","#category-filters","#since-filters","#order-filters","#btn-hide-filters"])
+  hideElement(["#btn-show-filters"])
+})
+
 };
 
 $("#categories-nav").addEventListener("click", () => {
