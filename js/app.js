@@ -182,6 +182,34 @@ const deleteCategories = (categoryId) => {
   setData("categories", currentData)
 }
 
+const amountAndEarning = () => {
+  const currentDataOperations = getData("operations")
+  let earnings = 0
+  let expenses = 0
+  let total = 0
+  for (const operation of currentDataOperations) {
+    if (operation.type === "type-amount") {
+      expenses += operation.amount
+        } else {
+          earnings += operation.amount
+        } 
+  }
+  total = earnings - expenses
+  return {
+    earnings: earnings,
+    expenses: expenses ,
+    total: total
+  }
+}
+amountAndEarning()
+
+const renderBalance = () => {
+  const funcionAmount  = amountAndEarning()
+  $("#earnings-container").innerText = `$${funcionAmount.earnings}`
+  $("#expenses-container").innerText = `-$${funcionAmount.expenses}`
+  $("#total-container").innerText = `$${funcionAmount.total}`
+}
+renderBalance()
 
 
 /* EVENTS*/
