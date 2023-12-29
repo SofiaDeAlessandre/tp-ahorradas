@@ -60,7 +60,6 @@ let currentDate = new Date().toJSON().slice(0, 10);
 
 const cleanContainer = selector => selector.innerHTML = "";
 
-
 /* RENDERS */
 
 const renderOperations = (operations) => {
@@ -95,33 +94,31 @@ const renderCategoriesTable = (categories) => {
       $("#category-container").innerHTML += `
       <div> 
       <span>
-          <div class="columns-4xl">${category.categoryName}
+          <div class="w-3/4">${category.categoryName}
           <button class="text-emerald-500 text-sm font-semibold p-6" onclick="showFormCategory('${category.id}')"> editar </button>
           <button class="text-red-700 text-sm font-semibold p-6" onclick="deleteCategories ('${category.id}')"> eliminar </button>
           </span>
               </div>
               </div>
-              
       `
   }
-
 }
 
-const renderCategoriesOptions = (newCategories) => {
-  // cleanContainer("#select-new-category")
-  for(const category of newCategories){
+const renderCategoriesOptions = (categoriesArray) => {
+  for(const category of categoriesArray){
+    if(category != "Todas"){
       $("#select-new-category").innerHTML += `
       <option value="${category.id}" data-id="${category.id}">${category.categoryName}</option> 
 
-      `
-  }
-      for(const category of newCategories){
+     `
         $("#categories-select").innerHTML += `
         <option value="${category.id}" data-id="${category.id}">${category.categoryName}</option> 
-  
-        `
+
+      `     
+    }
   }
-}
+  }
+
 
 const saveOperations = (operationId) => {
     const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
@@ -138,15 +135,15 @@ const saveOperations = (operationId) => {
 const saveCategoryData = () => {
   return {
     id: randomId(),
-    categoryName: $("#categories").value
+    categoryName: $("#input-categories").value
   };
 }
 
 const addCategory = () => {
   const currentCategories = getData("categories")
-  const newCategory = saveCategoryData()
-  currentCategories.push(newCategory)
+  currentCategories.push(saveCategoryData())
   setData("categories", currentCategories)
+  renderCategoriesTable(currentCategories[-1])
 }
 
 const showFormEdit = (operationId) => {
@@ -169,7 +166,7 @@ const showFormCategory = (categoryId) => {
   $("#select-new-category").value = categorySelected.categoryId
 }
 
-//el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
+// el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
 const deleteOperations = (operationId) => {
   const currentData = getData("operations").filter(op => op.id !== operationId)
@@ -180,36 +177,37 @@ const deleteOperations = (operationId) => {
 const deleteCategories = (categoryId) => {
   const currentData = getData("categories").filter(cat => cat.id !== categoryId)
   setData("categories", currentData)
+  window.location.reload()
 }
 
-const amountAndEarning = () => {
-  const currentDataOperations = getData("operations")
-  let earnings = 0
-  let expenses = 0
-  let total = 0
-  for (const operation of currentDataOperations) {
-    if (operation.type === "type-amount") {
-      expenses += operation.amount
-        } else {
-          earnings += operation.amount
-        } 
-  }
-  total = earnings - expenses
-  return {
-    earnings: earnings,
-    expenses: expenses ,
-    total: total
-  }
-}
-amountAndEarning()
+// const amountAndEarning = () => {
+//   const currentDataOperations = getData("operations")
+//   let earnings = 0
+//   let expenses = 0
+//   let total = 0
+//   for (const operation of currentDataOperations) {
+//     if (operation.type === "type-amount") {
+//       expenses += operation.amount
+//         } else {
+//           earnings += operation.amount
+//         } 
+//   }
+//   total = earnings - expenses
+//   return {
+//     earnings: earnings,
+//     expenses: expenses ,
+//     total: total
+//   }
+// }
+// amountAndEarning()
 
-const renderBalance = () => {
-  const funcionAmount  = amountAndEarning()
-  $("#earnings-container").innerText = `$${funcionAmount.earnings}`
-  $("#expenses-container").innerText = `-$${funcionAmount.expenses}`
-  $("#total-container").innerText = `$${funcionAmount.total}`
-}
-renderBalance()
+// const renderBalance = () => {
+//   const funcionAmount  = amountAndEarning()
+//   $("#earnings-container").innerText = `$${funcionAmount.earnings}`
+//   $("#expenses-container").innerText = `-$${funcionAmount.expenses}`
+//   $("#total-container").innerText = `$${funcionAmount.total}`
+// }
+// renderBalance()
 
 
 /* EVENTS*/
@@ -254,7 +252,7 @@ $("#btn-add-operation").addEventListener("click", (e) => {
   const currentData = getData("operations")
   currentData.push(saveOperations())
   setData("operations", currentData)
-   hideElement(["#form-new-operation"])
+  hideElement(["#form-new-operation"])
   window.location.reload() 
 })
 
@@ -294,12 +292,18 @@ $("#categories-nav").addEventListener("click", () => {
   showElement(["#category-container"]);
   hideElement(["#main-view","#reports-div","#form-new-operation"]);
 });
-$("#btn-add-category").addEventListener("click", () => {
+
+$("#btn-add-category").addEventListener("click", (e) => {
   e.preventDefault()
   addCategory()
-  const currentCategories = getData("categories")
-  renderCategoriesOptions(currentCategories)
-  renderCategoriesTable(currentCategories)
+})
+
+$(".filter-categories").addEventListener("input", (e) => {
+  const categoryId = e.target.value
+  const currentData = getData("operations")
+  const filteredOperations = currentData.filter(cat => cat.categoryId === categoryId)
+  renderOperations(filteredOperations)
 })
 
 window.addEventListener("load", initialize);
+
