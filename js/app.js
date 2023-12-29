@@ -58,7 +58,7 @@ const allCategories = getData("categories") || defaultCategories
 
 let currentDate = new Date().toJSON().slice(0, 10);
 
-const cleanContainer = selector => selector.innerHTML = "";
+const cleanContainer = (selector) => (selector).innerHTML = ""
 
 /* RENDERS */
 
@@ -143,7 +143,7 @@ const addCategory = () => {
   const currentCategories = getData("categories")
   currentCategories.push(saveCategoryData())
   setData("categories", currentCategories)
-  renderCategoriesTable(currentCategories[-1])
+  // renderCategoriesTable(currentCategories)
 }
 
 const showFormEdit = (operationId) => {
@@ -218,17 +218,14 @@ const initialize = () => {
   renderOperations(allOperations)
   renderCategoriesTable(allCategories)
   renderCategoriesOptions(allCategories)
-  
   $("#categories-nav").addEventListener("click", () => {
     showElement(["#category-container"]);
-    hideElement(["#main-view","#reports-div","#form-new-operation"]);
-  });
-
-  $("#reports-link").addEventListener("click", () => {
+    hideElement(["#main-view","#reports-div","#form-new-operation"])
+  })
+ $("#reports-link").addEventListener("click", () => {
     showElement(["#reports-div"]);
     hideElement(["#main-view","#category-container","#form-new-operation"]);
-  });
-
+  })
   $("#btn-new-operation").addEventListener("click", () => {
     showElement(["#form-new-operation"]);
     hideElement(["#main-view","#btn-edit-operation"]);
@@ -239,12 +236,12 @@ const initialize = () => {
 $("#icon-nav").addEventListener("click", () => {
   showElement(["#list-nav","#list-nav","#close-nav"])
   hideElement(["#icon-nav"])
-});
+})
 
 $("#close-nav").addEventListener("click", () => {
   hideElement(["#list-nav","#list-nav","#close-nav"])
   showElement(["#icon-nav"])
-});
+})
 
 $("#btn-add-operation").addEventListener("click", (e) => {
   e.preventDefault();
@@ -286,16 +283,17 @@ $("#btn-show-filters").addEventListener("click", () => {
   hideElement(["#btn-show-filters"])
 })
 
-};
+
 
 $("#categories-nav").addEventListener("click", () => {
   showElement(["#category-container"]);
   hideElement(["#main-view","#reports-div","#form-new-operation"]);
-});
+})
 
 $("#btn-add-category").addEventListener("click", (e) => {
   e.preventDefault()
   addCategory()
+  window.location.reload()
 })
 
 $(".filter-categories").addEventListener("input", (e) => {
@@ -304,6 +302,8 @@ $(".filter-categories").addEventListener("input", (e) => {
   const filteredOperations = currentData.filter(cat => cat.categoryId === categoryId)
   renderOperations(filteredOperations)
 })
+
+}; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 window.addEventListener("load", initialize);
 
