@@ -58,12 +58,12 @@ const allCategories = getData("categories") || defaultCategories
 
 let currentDate = new Date().toJSON().slice(0, 10);
 
-const cleanContainer = (selector) => (selector).innerHTML = ""
+// const cleanContainer = (selector) => $(selector).innerHTML = ""
 
 /* RENDERS */
 
 const renderOperations = (operations) => {
-  cleanContainer("#tableOperations")
+  // cleanContainer("#tableOperations")
   if(operations.length) {
     hideElement(["#no-results"])
   for (const operation of operations) {
@@ -89,7 +89,7 @@ const renderOperations = (operations) => {
 
 
 const renderCategoriesTable = (categories) => {
-  cleanContainer("#category-container")
+  // cleanContainer("#category-container")
   for(const category of categories){
       $("#category-container").innerHTML += `
       <div> 
@@ -136,14 +136,15 @@ const saveCategoryData = () => {
   return {
     id: randomId(),
     categoryName: $("#input-categories").value
-  };
+  }
 }
 
 const addCategory = () => {
   const currentCategories = getData("categories")
-  currentCategories.push(saveCategoryData())
+  const newCategory = saveCategoryData()
+  currentCategories.push(newCategory)
   setData("categories", currentCategories)
-  // renderCategoriesTable(currentCategories)
+  renderCategoriesTable([newCategory])
 }
 
 const showFormEdit = (operationId) => {
@@ -177,9 +178,9 @@ const deleteOperations = (operationId) => {
 const deleteCategories = (categoryId) => {
   const currentData = getData("categories").filter(cat => cat.id !== categoryId)
   setData("categories", currentData)
-  window.location.reload()
+  const updatedCategories = currentData.pop()
+  renderCategoriesTable([updatedCategories])
 }
-
 const amountAndEarning = () => {
   if (getData("categories")){
   const currentDataOperations = getData("operations")
@@ -213,8 +214,6 @@ const renderBalance = () => {
 }
 }
 renderBalance()
-
-
 /* EVENTS*/
 
 const initialize = () => {
@@ -234,10 +233,11 @@ const initialize = () => {
   $("#btn-new-operation").addEventListener("click", () => {
     showElement(["#form-new-operation"]);
     hideElement(["#main-view","#btn-edit-operation"]);
-  });
+  })
   // $("#form-new-operation").addEventListener("click", (e) => {
   //   e.preventDefault();
   // });
+
 $("#icon-nav").addEventListener("click", () => {
   showElement(["#list-nav","#list-nav","#close-nav"])
   hideElement(["#icon-nav"])
@@ -279,6 +279,11 @@ $("#btn-cancel-operation").addEventListener("click", (e) => {
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
 
+$("#btn-add-category").addEventListener("click", (e) => {
+  e.preventDefault()
+  addCategory()
+})
+
 $("#btn-hide-filters").addEventListener("click", () => {
   hideElement(["#filter-types","#category-filters","#since-filters","#order-filters","#btn-hide-filters"])
   showElement(["#btn-show-filters"])
@@ -288,17 +293,9 @@ $("#btn-show-filters").addEventListener("click", () => {
   hideElement(["#btn-show-filters"])
 })
 
-
-
 $("#categories-nav").addEventListener("click", () => {
   showElement(["#category-container"]);
   hideElement(["#main-view","#reports-div","#form-new-operation"]);
-})
-
-$("#btn-add-category").addEventListener("click", (e) => {
-  e.preventDefault()
-  addCategory()
-  window.location.reload()
 })
 
 $(".filter-categories").addEventListener("input", (e) => {

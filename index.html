@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100">
+  <header>
     <!--HEADER-->
     <nav id="navbar" class="bg-indigo-400 xl:flex">
         <div class="flex justify-between items-center p-8 xl:w-4/5">
@@ -21,6 +22,7 @@
             <i class="fa fa-times hidden" id="close-nav"></i>
           </button>
         </div>
+
         <ul id="list-nav" class="hidden w-46 bg-slate-50 xl:flex xl:p-8 xl:bg-indigo-400">
           <li id="balance-nav" class="item-nav text-center text-black flex xl:text-white">
             <a
@@ -44,24 +46,20 @@
               ><i class="fa-solid fa-chart-pie p-1"></i> Reportes</a>
           </li>
           </ul>
-        </div>
       </nav>
     </header>
     <!--END OF HEADER-->
     <!--MAIN VIEW SECTION-->
     <section
     id="main-view"
-    class="flex flex-col items-center lg:flex-row lg:items-stretch lg:m-20"
-  >
+    class="flex flex-col items-center lg:flex-row lg:items-stretch lg:m-20">
     <div
       id="balance-filters"
-      class="w-full flex flex-col items-center lg:w-1/3 lg:h-80"
-    >
+      class="w-full flex flex-col items-center lg:w-1/3 lg:h-80">
     <!--BALANCE CONTAINER-->
       <div
         id="balance-container"
-        class="w-10/12 h-48 m-4 rounded shadow bg-slate-50 lg:w-80"
-      >
+        class="w-10/12 h-48 m-4 rounded shadow bg-slate-50 lg:w-80">
         <h2 class="text-xl font-semibold p-2">Balance</h2>
         <div class="flex justify-between p-2">
           <span>Ganancias:</span>
@@ -80,8 +78,7 @@
       <!--FILTERS CONTAINER-->
       <div
         id="filters-container"
-        class="w-10/12 h-auto m-4 rounded shadow bg-slate-50 lg:w-80"
-      >
+        class="w-10/12 h-auto m-4 rounded shadow bg-slate-50 lg:w-80">
         <div class="flex p-2 justify-between">
           <h3 class="text-xl font-semibold mb-2 mt-2">Filtros</h3>
           <button id="btn-hide-filters" class="text-sky-700">Ocultar filtros</button>
@@ -129,14 +126,12 @@
     <!--OPERATIONS CONTAINER-->
     <div
       id="operations-container"
-      class="m-4 rounded shadow w-2/3 bg-slate-50"    
-      >
+      class="m-4 rounded shadow w-2/3 bg-slate-50">
       <div class="flex flex-col m-4 md:flex-row justify-between">
         <h3>Operaciones</h3>
         <button
           id="btn-new-operation"
-          class="flex justify-items-start bg-indigo-400 rounded shadow w-40 p-2 text-white hover:bg-indigo-400 "
-        >
+          class="flex justify-items-start bg-indigo-400 rounded shadow w-40 p-2 text-white hover:bg-indigo-400 ">
           + Nueva operación
         </button>
       </div>
@@ -179,7 +174,7 @@
 
    <section class="flex flex-col justify-center hidden">
     <div id="categories-edit" class="flex justify-between rounded shadow bg-slate-50 p-4 m-10">
-     <h3 class="text-xl py-4">Editar categoría</h3>
+     <h3 class="text-xl py-4">Editar categorías</h3>
       <input type="text" id="edit-categories" class="rounded border shadow w-full"/>
       <button id="btn-cancel-category" class="bg-slate-300 rounded border radius p-1 text-white m-2">Cancelar</button>
       <button id="btn-edit-category" class="bg-green-500 rounded border radius p-1 text-white m-2">Editar</button>   
