@@ -58,7 +58,7 @@ const allCategories = getData("categories") || defaultCategories
 
 let currentDate = new Date().toJSON().slice(0, 10);
 
-// const cleanContainer = (selector) => $(selector).innerHTML = ""
+const cleanContainer = (selector) => $(selector).innerHTML = ""
 
 /* RENDERS */
 
@@ -89,17 +89,14 @@ const renderOperations = (operations) => {
 
 
 const renderCategoriesTable = (categories) => {
-  // cleanContainer("#category-container")
+  cleanContainer("#table-tbody")
   for(const category of categories){
-      $("#category-container").innerHTML += `
-      <div> 
-      <span>
-          <div class="w-3/4">${category.categoryName}
+      $("#table-tbody").innerHTML += `
+      <tr>
+          <td class="w-3/4">${category.categoryName}
           <button class="text-emerald-500 text-sm font-semibold p-6" onclick="showFormCategory('${category.id}')"> editar </button>
           <button class="text-red-700 text-sm font-semibold p-6" onclick="deleteAction('${category.id}')"> eliminar </button>
-          </span>
-              </div>
-              </div>
+      </tr>  
       `
   }
 }
@@ -128,7 +125,7 @@ const saveOperations = (operationId) => {
         category: categoryId,
         type: $("#select-type-new-operation").value ,
         date: $("#date-input").value ,
-        amount: $("#amount-new-operation").valueAsNumber , //NO TOMA ASNUMBER
+        amount: $("#amount-new-operation").valueAsNumber ,
     }
 }
 
@@ -144,7 +141,7 @@ const addCategory = () => {
   const newCategory = saveCategoryData()
   currentCategories.push(newCategory)
   setData("categories", currentCategories)
-  renderCategoriesTable([newCategory])
+  renderCategoriesTable(currentCategories)
 }
 
 const showFormEdit = (operationId) => {
@@ -174,13 +171,6 @@ const deleteOperations = (operationId) => {
   setData("operations", currentData)
   window.location.reload()
 }
-
-// const deleteCategories = (categoryId) => {
-//   const currentData = getData("categories").filter(cat => cat.id !== categoryId)
-//   setData("categories", currentData)
-//   const updatedCategories = currentData.pop()
-//   renderCategoriesTable([updatedCategories])
-// }
 
 const deleteCategories = (categoryId) => {
   const currentCategories = getData("categories").filter(category => category.id !== categoryId)
