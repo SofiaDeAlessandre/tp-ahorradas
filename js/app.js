@@ -21,6 +21,8 @@ const hideShowElement = (selectors) => {
 
 const randomId = () => self.crypto.randomUUID()
 
+let filteredOperation = [] 
+//let filterCategory = []
 
 const defaultCategories = [
   {
@@ -127,7 +129,7 @@ const saveOperations = (operationId) => {
         date: $("#date-input").value ,
         amount: $("#amount-new-operation").valueAsNumber ,
     }
-}
+} 
 
 const saveCategoryData = () => {
   return {
@@ -192,7 +194,7 @@ const amountAndEarning = () => {
   let expenses = 0
   let total = 0
   for (const operation of currentDataOperations) {
-    if (operation.type === "type-amount") {
+    if (operation.type === "expenses") {
       expenses += operation.amount
         } else {
           earnings += operation.amount
@@ -302,12 +304,38 @@ $("#categories-nav").addEventListener("click", () => {
   hideElement(["#main-view","#reports-div","#form-new-operation"]);
 })
 
-$(".filter-categories").addEventListener("input", (e) => {
-  const categoryId = e.target.value
+$("#select-type").addEventListener("input", (e) => {
+  const typeSelected = e.target.value
   const currentData = getData("operations")
-  const filteredOperations = currentData.filter(cat => cat.categoryId === categoryId)
-  renderOperations(filteredOperations)
+  if(typeSelected!=="all"){
+  
+  const filteredOperations = currentData.filter(operation => operation.type == typeSelected)
+  //console.log(filteredOperations)
+  filteredOperation.push(filteredOperations)
+  cleanContainer("#tableOperations")
+   renderOperations(filteredOperations)
+  }
+  else {
+    cleanContainer("#tableOperations")
+    renderOperations(currentData)
+  }
 })
+
+// $("#categories-select").addEventListener("input", (e) => {
+//   const categoriesSelected = e.target.value
+//   const currentData = getData("categories")
+//    for (const categories of currentData){
+//     const filteredCategories = currentData.filter(category => category.id === categoriesSelected)
+//     filterCategory.push(filteredCategories)
+    
+//      cleanContainer("#tableOperations")
+//      renderOperations(filterCategory)
+//   } 
+//   console.log(categoriesSelected)
+//   //renderOperations(filterCategory)
+//   //console.log(filterCategory)
+  
+//  })
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
