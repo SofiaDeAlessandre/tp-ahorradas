@@ -96,7 +96,7 @@ const renderCategoriesTable = (categories) => {
       <span>
           <div class="w-3/4">${category.categoryName}
           <button class="text-emerald-500 text-sm font-semibold p-6" onclick="showFormCategory('${category.id}')"> editar </button>
-          <button class="text-red-700 text-sm font-semibold p-6" onclick="deleteCategories ('${category.id}')"> eliminar </button>
+          <button class="text-red-700 text-sm font-semibold p-6" onclick="deleteAction('${category.id}')"> eliminar </button>
           </span>
               </div>
               </div>
@@ -175,12 +175,26 @@ const deleteOperations = (operationId) => {
   window.location.reload()
 }
 
+// const deleteCategories = (categoryId) => {
+//   const currentData = getData("categories").filter(cat => cat.id !== categoryId)
+//   setData("categories", currentData)
+//   const updatedCategories = currentData.pop()
+//   renderCategoriesTable([updatedCategories])
+// }
+
 const deleteCategories = (categoryId) => {
-  const currentData = getData("categories").filter(cat => cat.id !== categoryId)
-  setData("categories", currentData)
-  const updatedCategories = currentData.pop()
-  renderCategoriesTable([updatedCategories])
+  const currentCategories = getData("categories").filter(category => category.id !== categoryId)
+  setData("categories", currentCategories)
+  return currentCategories
+
 }
+
+const deleteAction = (categoryId) => {
+  renderCategoriesTable(deleteCategories(categoryId))
+  const currentData = getData("operations").filter(operation => operation.category != categoryId)
+  setData("operations", currentData)
+}
+
 const amountAndEarning = () => {
   if (getData("categories")){
   const currentDataOperations = getData("operations")
