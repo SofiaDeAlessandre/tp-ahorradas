@@ -161,12 +161,20 @@
    <section id="categories-section" class="flex flex-col justify-center w-full">
     <div
     class="hidden rounded shadow bg-slate-50 p-4 m-10"
-    id="category-container">
-    <h3 class="text-xl py-4">Categorías</h3>
+    id="category-container"
+  >
+    <h3 id="add-categories-title" class="text-xl py-4">Categorías</h3>
+    <h3 id="edit-categories-title" class="text-xl py-4 hidden">Editar categoría </h3>
     <label for="name" class="">Nombre</label>
-    <div class=" flex justify-between">
+    <div class="flex justify-between">
       <input type="text" id="input-categories" class="rounded border shadow w-full"/>
       <button id="btn-add-category" class="bg-green-500 rounded border radius p-1 text-white">Agregar</button>
+      <div class="flex flex-row-reverse">
+      <button id="btn-cancel-category" class="bg-slate-400 rounded border radius p-1 text-white m-2 hidden">Cancelar</button>\
+      <button id="btn-edit-category" class="bg-green-500 rounded border radius p-1 text-white m-2 hidden">Editar</button>
+  
+      <!-- RENDERING CATEGORIES FROM JS -->
+      </div>
     </div>
     <table id="table-categories">
       <tbody id="table-tbody">
@@ -176,14 +184,16 @@
   </div>
    </section>
 
-   <section class="flex flex-col justify-center hidden">
+   <!-- <section class="flex flex-col justify-center hidden"  id="edit-categories-form">
+    <form action="">
     <div id="categories-edit" class="flex justify-between rounded shadow bg-slate-50 p-4 m-10">
      <h3 class="text-xl py-4">Editar categorías</h3>
-      <input type="text" id="edit-categories" class="rounded border shadow w-full"/>
+      <input type="text" id="edit-categories" class="rounded border shadow w-full p-4"/>
       <button id="btn-cancel-category" class="bg-slate-300 rounded border radius p-1 text-white m-2">Cancelar</button>
       <button id="btn-edit-category" class="bg-green-500 rounded border radius p-1 text-white m-2">Editar</button>   
      </div> 
-   </section>
+    </form>
+   </section> -->
    <!--END OF ADD CATEGORIES SECTION-->
 <!--REPORTS SECTION-->
 <section id="reports-section" class="flex flex-col justify-center w-full p-10">

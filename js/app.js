@@ -131,16 +131,18 @@ const saveOperations = (operationId) => {
     }
 } 
 
-const saveCategoryData = () => {
+const saveCategoryData = (categoryId) => {
   return {
-    id: randomId(),
+    id: categoryId ? categoryId : randomId(),
     categoryName: $("#input-categories").value
   }
 }
 
 const addCategory = () => {
+  const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
+  hideElement(["#edit-categories-title"])
   const currentCategories = getData("categories")
-  const newCategory = saveCategoryData()
+  const newCategory = saveCategoryData(categoryId)
   currentCategories.push(newCategory)
   setData("categories", currentCategories)
   renderCategoriesTable(currentCategories)
@@ -159,11 +161,12 @@ const showFormEdit = (operationId) => {
 }
 
 const showFormCategory = (categoryId) => {
-  showElement(["#categories-edit"])
-  hideElement(["#main-view", "#tableOperations","#btn-add-operation","#form-new-operation","#categories-section"])
+  showElement(["#edit-categories-title", "#btn-cancel-category", "#btn-edit-category"])
+  hideElement(["#main-view", "#tableOperations","#btn-add-category","#form-new-operation","#add-categories-title","#categories-table"])
   $("#btn-edit-category").setAttribute("data-id", categoryId)
   const categorySelected = getData("categories").find(cat => cat.id === categoryId)
-  $("#select-new-category").value = categorySelected.categoryId
+  console.log(categorySelected)
+  $("#input-categories").value = categorySelected.categoryName
 }
 
 // el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
@@ -280,6 +283,12 @@ window.location.reload()
 $("#btn-cancel-operation").addEventListener("click", (e) => {
   e.preventDefault()
   window.location.reload() 
+  })
+
+  $("#btn-cancel-category").addEventListener("click", (e) => {
+    e.preventDefault()
+    hideElement(["#edit-categories-title", "#btn-cancel-category", "#btn-edit-category"])
+    showElement(["#btn-add-category","#add-categories-title","#categories-table"])
   })
 
 $("#date-input").value = currentDate
