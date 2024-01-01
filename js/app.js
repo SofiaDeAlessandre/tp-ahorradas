@@ -162,10 +162,9 @@ const showFormEdit = (operationId) => {
 
 const showFormCategory = (categoryId) => {
   showElement(["#edit-categories-title", "#btn-cancel-category", "#btn-edit-category"])
-  hideElement(["#main-view", "#tableOperations","#btn-add-category","#form-new-operation","#add-categories-title","#categories-table"])
+  hideElement(["#main-view", "#tableOperations","#btn-add-category","#form-new-operation","#add-categories-title","#table-tbody"])
   $("#btn-edit-category").setAttribute("data-id", categoryId)
   const categorySelected = getData("categories").find(cat => cat.id === categoryId)
-  console.log(categorySelected)
   $("#input-categories").value = categorySelected.categoryName
 }
 
@@ -288,9 +287,24 @@ $("#btn-cancel-operation").addEventListener("click", (e) => {
   $("#btn-cancel-category").addEventListener("click", (e) => {
     e.preventDefault()
     hideElement(["#edit-categories-title", "#btn-cancel-category", "#btn-edit-category"])
-    showElement(["#btn-add-category","#add-categories-title","#categories-table"])
+    showElement(["#btn-add-category","#add-categories-title","#table-tbody"])
   })
 
+  $("#btn-edit-category").addEventListener("click", (e) => {
+    e.preventDefault()
+    const categoryId = $("#btn-edit-category").getAttribute("data-id")
+    const currentData = getData("categories").map(category => {
+      if (category.id === categoryId) {
+        return saveCategoryData(categoryId)
+      }
+      return category
+    })
+    setData("categories", currentData)
+    renderCategoriesTable(currentData)
+    hideElement(["#edit-categories-title", "#btn-cancel-category", "#btn-edit-category"])
+    showElement(["#btn-add-category","#add-categories-title","#table-tbody"])
+    })
+  
 $("#date-input").value = currentDate
 $("#since-date").value = currentDate
 
