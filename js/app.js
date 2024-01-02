@@ -341,10 +341,8 @@ $("#select-type").addEventListener("input", (e) => {
   const typeSelected = e.target.value
   const currentData = getData("operations")
   if(typeSelected!=="all"){
-  
   const filteredOperations = currentData.filter(operation => operation.type == typeSelected)
-  //console.log(filteredOperations)
-  filteredOperation.push(filteredOperations)
+  filteredOperation = filteredOperations
   cleanContainer("#tableOperations")
    renderOperations(filteredOperations)
   }
@@ -354,41 +352,11 @@ $("#select-type").addEventListener("input", (e) => {
   }
 })
 
-//  $("#categories-select").addEventListener("input", (e) => {
-//   const categoriesSelected = e.target.value
-//   const currentData = getData("categories")
-// //    for (const categories of currentData){
-// //     const filteredCategories = currentData.filter(category => category.id === categoriesSelected)
-// //     filterCategory.push(filteredCategories)
-    
-// //      cleanContainer("#tableOperations")
-// //      renderOperations(filterCategory)
-// //   } 
-// //   console.log(categoriesSelected)
-// //   //renderOperations(filterCategory)
-// //   //console.log(filterCategory)
-  
-//  })
-
-// $("#categories-select").addEventListener("input", (e) => {
-//   const categorySelected = e.target.value
-//   const currentData = getData("categories")
-//   if(categorySelected !== "all"){
-//     const filtCategory = operationsFilteredCategories(filteredOperation, categorySelected)
-//       filteredCategory.push(filtCategory)
-//      cleanContainer("#table-tbody")
-//     renderOperations(filteredCategory)
-//   } else {
-//     cleanContainer("#table-tbody")
-//   renderCategoriesTable(currentData)
-//   }
-//  })
-
 $("#categories-select").addEventListener("input", (e) => {
   const categoriesId = e.target.value
   if(categoriesId !== "all") {
   const currentData = getData ("operations")
-  const filteredOperations2 = currentData.filter(operation => operation.category === categoriesId)
+  const filteredOperations2 = filteredOperation.filter(operation => operation.category === categoriesId)
   cleanContainer("#tableOperations")
   renderOperations(filteredOperations2)}
 })
