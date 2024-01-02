@@ -22,7 +22,15 @@ const hideShowElement = (selectors) => {
 const randomId = () => self.crypto.randomUUID()
 
 let filteredOperation = [] 
-//let filterCategory = []
+let filteredCategory = []
+
+
+
+// const clearArray = (array) =>  {
+//   while (array.length > 0) {
+//     array.pop();
+//   }
+// }
 
 const defaultCategories = [
   {
@@ -221,7 +229,16 @@ const renderBalance = () => {
   $("#total-container").innerText = `$${funcionAmount.total}`
 }
 }
+
 renderBalance()
+
+const operationsFilteredCategories = (arrFilteredOperation, catId) => {
+  //console.log(arrFilteredOperation, catId)
+ const operationAndCategory = arrFilteredOperation.filter(arrFilteredOperation => arrFilteredOperation.category === catId.id)
+ console.log(operationAndCategory)
+ return operationAndCategory
+}
+
 /* EVENTS*/
 
 const initialize = () => {
@@ -344,23 +361,39 @@ $("#select-type").addEventListener("input", (e) => {
   }
 })
 
-// $("#categories-select").addEventListener("input", (e) => {
+//  $("#categories-select").addEventListener("input", (e) => {
 //   const categoriesSelected = e.target.value
 //   const currentData = getData("categories")
-//    for (const categories of currentData){
-//     const filteredCategories = currentData.filter(category => category.id === categoriesSelected)
-//     filterCategory.push(filteredCategories)
+// //    for (const categories of currentData){
+// //     const filteredCategories = currentData.filter(category => category.id === categoriesSelected)
+// //     filterCategory.push(filteredCategories)
     
-//      cleanContainer("#tableOperations")
-//      renderOperations(filterCategory)
-//   } 
-//   console.log(categoriesSelected)
-//   //renderOperations(filterCategory)
-//   //console.log(filterCategory)
+// //      cleanContainer("#tableOperations")
+// //      renderOperations(filterCategory)
+// //   } 
+// //   console.log(categoriesSelected)
+// //   //renderOperations(filterCategory)
+// //   //console.log(filterCategory)
   
 //  })
+
+$("#categories-select").addEventListener("input", (e) => {
+  const categorySelected = e.target.value
+  const currentData = getData("categories")
+  if(categorySelected !== "all"){
+    const filtCategory = operationsFilteredCategories(filteredOperation, categorySelected)
+      filteredCategory.push(filtCategory)
+     cleanContainer("#table-tbody")
+    renderOperations(filteredCategory)
+  } else {
+    cleanContainer("#table-tbody")
+  renderCategoriesTable(currentData)
+  }
+ })
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 window.addEventListener("load", initialize);
+
+
 
