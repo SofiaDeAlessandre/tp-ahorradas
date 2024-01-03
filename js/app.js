@@ -77,6 +77,7 @@ const cleanContainer = (selector) => $(selector).innerHTML = ""
 const renderOperations = (operations) => {
   // cleanContainer("#tableOperations")
   if(operations.length) {
+    showElement(["#tableOperations"])
     hideElement(["#no-results"])
   for (const operation of operations) {
     const categorySelected = getData("categories").find(cat => cat.id === operation.category)
@@ -98,6 +99,7 @@ const renderOperations = (operations) => {
 } else {
   showElement(["#no-results"])
   hideElement(["#tableOperations"])
+  //hideShowElement(["#tableOperations"])
 }
 };
 
