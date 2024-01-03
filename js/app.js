@@ -59,6 +59,10 @@ let filteredOperation = []
 let filteredCategory = []
 
 let currentDate = new Date().toJSON().slice(0, 10);
+const convertDate = (dateString) => {
+  const convertedDate = dateString.replace(/-/g, '');
+  return convertedDate;
+}
 
 const cleanContainer = (selector) => $(selector).innerHTML = ""
 
@@ -359,6 +363,18 @@ $("#categories-select").addEventListener("input", (e) => {
   const filteredOperations = filteredCategory.filter(operation => operation.category === categoriesId)
   cleanContainer("#tableOperations")
   renderOperations(filteredOperations)}
+})
+
+$("#since-date").addEventListener("input", (e) => {
+  let dateSelected = e.target.value
+  dateSelected = convertDate(dateSelected)
+  let filteredDates = []
+  const currentData = getData ("operations")
+  filteredDates = currentData
+  const sinceDates = currentData.filter(operation => convertDate(operation.date) >= dateSelected)
+  filteredDates = sinceDates
+  cleanContainer("#tableOperations")
+  renderOperations(filteredDates)
 })
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
