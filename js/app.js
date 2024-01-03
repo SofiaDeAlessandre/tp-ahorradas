@@ -85,7 +85,9 @@ const renderOperations = (operations) => {
       <td class="text-center">${operation.description}</td>
       <td class="text-center">${categorySelected.categoryName}</td>
       <td class="text-center">${convertDateFormat(operation.date)}</td>
-      <td class="text-center">$${operation.amount}</td>
+      <td class="${ operation.type === "expenses" 
+                                                  ? "text-red-500"
+                                                  : "text-green-500"}">$${operation.amount}</td>
       <td class="text-center">
       <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormEdit('${operation.id}')">editar</button>
       <button class="text-red-700 text-sm font-semibold p-1" onclick="deleteOperations('${operation.id}')">eliminar</button>
