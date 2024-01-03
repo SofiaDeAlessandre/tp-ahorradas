@@ -143,7 +143,7 @@ const saveOperations = (operationId) => {
     }
 } 
 
-const saveCategoryData = (categoryId) => {
+const saveCategoryData = (categoryId = randomId()) => {
   return {
     id: categoryId ? categoryId : randomId(),
     categoryName: $("#input-categories").value
@@ -151,10 +151,11 @@ const saveCategoryData = (categoryId) => {
 }
 
 const addCategory = () => {
-  const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
+  // const categoryId = $("#select-new-category").options[$("#select-new-category").selectedIndex].getAttribute("data-id")
   hideElement(["#edit-categories-title"])
   const currentCategories = getData("categories")
-  const newCategory = saveCategoryData(categoryId)
+  const newCategory = saveCategoryData()
+  console.log(newCategory)
   currentCategories.push(newCategory)
   setData("categories", currentCategories)
   renderCategoriesTable(currentCategories)
@@ -387,9 +388,46 @@ $("#since-date").addEventListener("input", (e) => {
   renderOperations(filteredDates)
 })
 
-// $("#filter-order").addEventListener("input", (e) => {
-//   let orderSelected = e.target.value
-// })
+const moreRecent = () => {
+  let filteredDates = []
+  const currentData = getData ("operations")
+  filteredDates = currentData
+  const dates = filteredDates.map(operation => convertDate(operation.date))
+  filteredDates = dates
+  console.log(filteredDates)
+  filteredDates.sort(function(a, b){return b - a})
+  console.log(filteredDates)
+  return filteredDates
+  }
+
+
+$("#filter-order").addEventListener("input", (e) => {
+  let orderSelected = e.target.value
+  const expr = orderSelected;
+switch (expr) {
+  case 'less-recent':
+    console.log("less recent")
+    break
+  case 'higher-amount':
+    console.log('higher amount')
+    break
+    case 'lower-amount':
+      console.log('lower amount')
+      break
+      case 'from-a':
+        console.log('from a')
+        break
+        case 'from-z':
+          console.log('from z')
+    // Expected output: "Mangoes and papayas are $2.79 a pound."
+    break;
+  default:
+    console.log('more recent');
+    const moreRecentOps = moreRecent()
+    console.log(moreRecentOps)
+    renderOperations(moreRecentOps)
+}
+})
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
