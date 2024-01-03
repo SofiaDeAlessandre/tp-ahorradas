@@ -194,6 +194,50 @@
 <h5 class="text-3xl mb-8">Operaciones insuficientes</h5>
 <p class="mb-8">Prueba agregando más operaciones</p>
 </div>
+<div id="current-reports" class="hidden rounded shadow bg-slate-50 p-4 m-10 flex flex-col justify-items-start  gap-y-5">
+  <div id="resumen-reports" class="gap-y-2.5 max-w-xl max-h-xl m-10 ">
+    <p class="text-xl font-semibold p-4">Resumen</p>
+    <div>
+      <p class="p-2">Categoría con mayor ganancia</p> <div></div> <div></div>
+      <p class="p-2">Categoría con mayor gasto</p> <div></div> <div></div>
+      <p class="p-2">Categoría con mayor balance</p> <div></div> <div></div>
+      <p class="p-2">Mes con mayor ganancia</p> <div></div> <div></div>
+      <p class="p-2">Mes con mayor gasto</p> <div></div> <div></div>
+    </div>
+  </div>
+  <div id="total-categories-reports" class="gap-y-2.5 max-w-xl max-h-xl m-10">
+    <p class="text-xl font-semibold p-4">Totales por categoría</p>
+    <table id="table-total-categories" class="w-full bg-slate-50 align-center p-4">
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>Ganancias</th>
+          <th>Gastos</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-table-total-categories">
+        <!--RENDER from js-->
+      </tbody>
+    </table>
+  </div>
+  <div id="total-month-reports" class="gap-y-1.5 max-w-xl max-h-xl m-10">
+    <p class="text-xl font-semibold p-4">Totales por mes</p>
+    <table id="table-total-month-reports" class="w-full bg-slate-50 align-center p-4">
+      <thead>
+        <tr>
+          <th>Mes</th>
+          <th>Ganancias</th>
+          <th>Gastos</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-table-total-month-reports">
+        <!--RENDER from js-->
+      </tbody>
+    </table>
+  </div>
+  </div>
 </section>
 <!--ADD NEW OPERATION FORM-->
 <section class="flex justify-center w-full my-10">

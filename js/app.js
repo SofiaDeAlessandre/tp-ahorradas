@@ -258,7 +258,7 @@ const initialize = () => {
     hideElement(["#main-view","#reports-div","#form-new-operation"])
   })
  $("#reports-link").addEventListener("click", () => {
-    showElement(["#reports-div"]);
+    showElement(["#reports-div", "#current-reports"]);
     hideElement(["#main-view","#category-container","#form-new-operation"]);
   })
   $("#btn-new-operation").addEventListener("click", () => {
