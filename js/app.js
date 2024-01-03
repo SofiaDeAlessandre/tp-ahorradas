@@ -21,10 +21,6 @@ const hideShowElement = (selectors) => {
 
 const randomId = () => self.crypto.randomUUID()
 
-let filteredOperation = [] 
-// let filteredCategory = []
-
-
 const defaultCategories = [
   {
       id: randomId(),
@@ -58,6 +54,9 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const allOperations = getData("operations") || []
 const allCategories = getData("categories") || defaultCategories
+
+let filteredOperation = [] 
+let filteredCategory = []
 
 let currentDate = new Date().toJSON().slice(0, 10);
 
@@ -356,9 +355,10 @@ $("#categories-select").addEventListener("input", (e) => {
   const categoriesId = e.target.value
   if(categoriesId !== "all") {
   const currentData = getData ("operations")
-  const filteredOperations2 = filteredOperation.filter(operation => operation.category === categoriesId)
+  filteredCategory = currentData
+  const filteredOperations = filteredCategory.filter(operation => operation.category === categoriesId)
   cleanContainer("#tableOperations")
-  renderOperations(filteredOperations2)}
+  renderOperations(filteredOperations)}
 })
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
