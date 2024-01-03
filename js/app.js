@@ -85,7 +85,7 @@ const renderOperations = (operations) => {
       <td class="text-center">${operation.description}</td>
       <td class="text-center">${categorySelected.categoryName}</td>
       <td class="text-center">${convertDateFormat(operation.date)}</td>
-      <td class="${ operation.type === "expenses" 
+      <td class="text-center ${ operation.type === "expenses" 
                                                   ? "text-red-500"
                                                   : "text-green-500"}">$${operation.amount}</td>
       <td class="text-center">
