@@ -64,6 +64,12 @@ const convertDate = (dateString) => {
   return convertedDate;
 }
 
+const convertDateFormat = (date) => {
+  const time = date.split('-');
+  const formattedDate = `${time[2]}/${time[1]}/${time[0]}`;
+  return formattedDate;
+}
+
 const cleanContainer = (selector) => $(selector).innerHTML = ""
 
 /* RENDERS */
@@ -78,7 +84,7 @@ const renderOperations = (operations) => {
      <tr>
       <td class="text-center">${operation.description}</td>
       <td class="text-center">${categorySelected.categoryName}</td>
-      <td class="text-center">${operation.date}</td>
+      <td class="text-center">${convertDateFormat(operation.date)}</td>
       <td class="text-center">$${operation.amount}</td>
       <td class="text-center">
       <button class="text-emerald-500 text-sm font-semibold p-1" onclick="showFormEdit('${operation.id}')">editar</button>
