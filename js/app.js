@@ -230,9 +230,11 @@ const renderBalance = () => {
   const funcionAmount  = amountAndEarning()
   $("#earnings-container").innerText = `$${funcionAmount.earnings}`
   $("#expenses-container").innerText = `-$${funcionAmount.expenses}`
-  $("#total-container").innerText = `$${funcionAmount.total}`
+  $("#total-container").innerText = `$${funcionAmount.total}`;
+  $("#total-container").classList.add(funcionAmount.total >= 0 ? "text-green-500" : "text-red-500")
 }
 }
+
 
 renderBalance()
 
@@ -384,6 +386,10 @@ $("#since-date").addEventListener("input", (e) => {
   cleanContainer("#tableOperations")
   renderOperations(filteredDates)
 })
+
+// $("#filter-order").addEventListener("input", (e) => {
+//   let orderSelected = e.target.value
+// })
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
