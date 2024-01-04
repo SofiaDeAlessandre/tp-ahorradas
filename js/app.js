@@ -421,6 +421,29 @@ const lessRecent = () => {
   return operationsByDate
 }
 
+const higherAmount = () => {
+  let currentData = getData("operations")
+  currentData.sort((a, b) => b.amount - a.amount)
+  return currentData
+}
+
+const lowerAmount = () => {
+  let currentData = getData("operations")
+  currentData.sort((a, b) => a.amount - b.amount)
+  return currentData
+}
+
+const fromA = () => {
+  let currentData = getData("operations")
+  currentData.sort((a, b) => a.description.localeCompare(b.description))
+  return currentData
+}
+
+const fromZ = () => {
+  let currentData = getData("operations")
+  currentData.sort((a, b) => b.description.localeCompare(a.description))
+  return currentData
+}
 
 $("#filter-order").addEventListener("input", (e) => {
   let orderSelected = e.target.value
@@ -431,16 +454,20 @@ switch (expr) {
     renderOperations(lessRecent())
     break
   case 'higher-amount':
-    console.log('higher amount')
+    cleanContainer("#tableOperations")
+    renderOperations(higherAmount())
     break
     case 'lower-amount':
-      console.log('lower amount')
+      cleanContainer("#tableOperations")
+      renderOperations(lowerAmount())
       break
       case 'from-a':
-        console.log('from a')
+        cleanContainer("#tableOperations")
+        renderOperations(fromA())
         break
         case 'from-z':
-          console.log('from z')
+          cleanContainer("#tableOperations")
+        renderOperations(fromZ())
     break;
   default:
     cleanContainer("#tableOperations")
