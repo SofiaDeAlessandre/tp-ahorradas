@@ -390,17 +390,36 @@ $("#since-date").addEventListener("input", (e) => {
   renderOperations(filteredDates)
 })
 
-const moreRecent = () => {
-  let filteredDates = []
-  const currentData = getData ("operations")
-  filteredDates = currentData
-  const dates = filteredDates.map(operation => convertDate(operation.date))
-  filteredDates = dates
-  console.log(filteredDates)
-  filteredDates.sort(function(a, b){return b - a})
-  console.log(filteredDates)
-  return filteredDates
-  }
+  const moreRecent = () => {
+    let currentData = getData("operations")
+    let filteredDates = currentData.map(operation => convertDate(operation.date))
+    let operationsByDate = []
+    let processedDates = new Set()
+    for (let i = 0; i < currentData.length; i++) {
+      if (!processedDates.has(filteredDates[i])){
+            const filteredOperations = currentData.filter(operation => convertDate(operation.date) === filteredDates[i])
+            operationsByDate.push(...filteredOperations)
+            processedDates.add(filteredDates[i])
+        }
+      }
+    return operationsByDate
+}
+
+const lessRecent = () => {
+  let currentData = getData("operations")
+  let filteredDates = currentData.map(operation => convertDate(operation.date))
+  filteredDates.sort(function (a, b) { return a - b})
+  let operationsByDate = []
+  let processedDates = new Set()
+  for (let i = 0; i < currentData.length; i++) {
+    if (!processedDates.has(filteredDates[i])){
+          const filteredOperations = currentData.filter(operation => convertDate(operation.date) === filteredDates[i])
+          operationsByDate.push(...filteredOperations)
+          processedDates.add(filteredDates[i])
+      }
+    }
+  return operationsByDate
+}
 
 
 $("#filter-order").addEventListener("input", (e) => {
@@ -408,7 +427,8 @@ $("#filter-order").addEventListener("input", (e) => {
   const expr = orderSelected;
 switch (expr) {
   case 'less-recent':
-    console.log("less recent")
+    cleanContainer("#tableOperations")
+    renderOperations(lessRecent())
     break
   case 'higher-amount':
     console.log('higher amount')
@@ -421,13 +441,10 @@ switch (expr) {
         break
         case 'from-z':
           console.log('from z')
-    // Expected output: "Mangoes and papayas are $2.79 a pound."
     break;
   default:
-    console.log('more recent');
-    const moreRecentOps = moreRecent()
-    console.log(moreRecentOps)
-    renderOperations(moreRecentOps)
+    cleanContainer("#tableOperations")
+    renderOperations(moreRecent())
 }
 })
 
