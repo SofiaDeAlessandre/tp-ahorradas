@@ -228,6 +228,65 @@ const amountAndEarning = () => {
 }
 amountAndEarning()
 
+/*FUNCTIONS TO REPORTS SECTION*/
+
+let categoryMoreEarnings = ""
+let categoryAmount = 0
+let categoryMoreExpenses = ""
+let categoryAmountExpenses = 0
+let accCategories = {}
+const amountByCategories = () => {
+  const currentOperations = getData("operations")
+  const currentCategories = getData("categories")
+  
+  for (const operation of currentOperations){
+    const categoryId = operation.category
+    const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
+    if (categoriaEncontrada) {
+      const categoryName = categoriaEncontrada.categoryName
+      if (!accCategories[categoryName]) {
+        accCategories[categoryName] = 0
+      }
+      if(operation.type === "expenses"){
+      accCategories[categoryName] += -operation.amount
+      
+      }
+       else{
+      accCategories[categoryName] += operation.amount
+      
+      }
+    }
+    
+  }
+  return accCategories
+}
+
+amountByCategories()
+
+for (const key in accCategories){
+    if (accCategories[key] > categoryAmount){
+      categoryAmount = (accCategories[key])
+      categoryMoreEarnings = [key]
+    } 
+  }
+  for (const key in accCategories){
+    if (accCategories[key] < categoryAmountExpenses){
+      categoryAmountExpenses = (accCategories[key])
+      categoryMoreExpenses = [key]
+    }
+  }
+
+const renderCategoriesReports = () => {
+  $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
+  $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
+  $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
+  $("#amount-category-more-expenses").innerText = `$${categoryAmountExpenses}`
+}
+ renderCategoriesReports()
+
+
+//________________________________________________________________________
+
 const renderBalance = () => {
   if(getData("categories")){
   const funcionAmount  = amountAndEarning()
