@@ -259,7 +259,6 @@ const amountByCategories = () => {
   return accCategories
 }
 amountByCategories()
-
   for (const key in accCategories){
     if (accCategories[key] > categoryBalance){
       categoryBalance = (accCategories[key])
@@ -293,7 +292,7 @@ accCategoriesMoreEarnings = {}
   }
   
  earningsByCategories()
-
+ 
   for (const key in accCategoriesMoreEarnings){
     if (accCategoriesMoreEarnings[key] > categoryAmount){
       categoryAmount = (accCategoriesMoreEarnings[key])
@@ -334,9 +333,35 @@ accCategoriesMoreExpenses = {}
     }
 //_________________________________________________________________END OF CATOGORY MORE EXPENSES
 
+let gananciasTotalesPorMes = {}
+const gananciasPorMes = () => {
+  const operaciones = getData("operations")
+for (const operacion of operaciones) {
+  let nuevaFecha = new Date(operacion.date)
+   const fechaMes = nuevaFecha.getMonth()+1 + "/" + nuevaFecha.getFullYear()
+   //console.log(fechaMes)
+   if (!gananciasTotalesPorMes[fechaMes]) {
+    gananciasTotalesPorMes[fechaMes] = 0
+  }
+   if (operacion.type === "earnings") {
+      gananciasTotalesPorMes[fechaMes] += operacion.amount
+   }
+}
+return gananciasTotalesPorMes
+}
+console.log(gananciasPorMes())
+
+let mesMayorGanancia = ""
+ let gananciaDeMeSMayorGanancia = 0
+  for (const key in gananciasTotalesPorMes){
+    if (gananciasTotalesPorMes[key] > gananciaDeMeSMayorGanancia){
+      mesMayorGanancia = [key]
+    } 
+  }
+  console.log(mesMayorGanancia)
 
 
-//__________________________________________________________________
+
 
 const renderCategoriesReports = () => {
   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
