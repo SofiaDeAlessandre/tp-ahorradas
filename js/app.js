@@ -229,21 +229,21 @@ const amountAndEarning = () => {
 amountAndEarning()
 
 /*FUNCTIONS TO REPORTS SECTION________________________________________________________*/
-const reportsFunctions = () => {
-  const currenData = getData("operations")
-  if(currenData.length>2  && currenData.type === "earnings" && currenData.type === "expenses"){
-    hideElement(["#reports-div"])
-    amountByCategories()
-    earningsByCategories()
-    expensesByCategories()
-    earningMonth()
-    expenseMonth()
-  }else{
-    showElement(["#reports-div"])
-    hideElement(["#current-reports"])
-  }
-}
-reportsFunctions()
+// const reportsFunctions = () => {
+//   const currenData = getData("operations")
+//   if(currenData.length>2){
+//     hideElement(["#reports-div"])
+//     amountByCategories()
+//     earningsByCategories()
+//     expensesByCategories()
+//     earningMonth()
+//     expenseMonth()
+//   }else{
+//     showElement(["#reports-div"])
+//     hideElement(["#current-reports"])
+//   }
+// }
+// reportsFunctions()
 
 let categoryMoreBalance = ""
 let categoryBalance = 0
@@ -406,7 +406,70 @@ let monthExpense= ""
       monthExpense = [key]
     } 
   }
-  console.log(amountMonthMoreExpense)
+  //console.log(amountMonthMoreExpense)
+
+
+
+  //__________________________________________________________________________________
+  //PRUEBA DE TOTALES DE MES
+  // let monthBalance = {}
+  // let monthEarnings = 0
+  // let monthExpenses = 0
+  // let monthBalanceTotal = 0
+  // const totalMonth = () => {
+  //   const currenData = getData("operations")
+  // for (const operation of currenData) {
+  //   let currentNewDate = new Date(currenData.date)
+  //    const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
+  //    if (!monthBalance[dateMonth]) {
+  //     monthBalance[dateMonth] = 0
+  //   }
+  //    if (operation.type === "earnings") {
+  //     monthMoreEarning[dateMonth] += operation.amount
+  //     monthEarnings = monthMoreEarning[dateMonth]
+  //    }
+  //    if (operation.type === "expenses") {
+  //     monthMoreEarning[dateMonth] += operation.amount
+  //    }
+  // }
+  // return monthBalance
+  // }
+  // console.log(monthBalance)
+  // totalMonth()
+  //_____________________________________________________________PRUEBA 2 TOTAL DE MES
+  let gastos = 0
+  let ganancias = 0
+  let total = 0
+
+const totalPorMes = () => {
+  const currentData = getData("operations")
+  for (const operation of currentData) {
+    mes = operation.date
+    if(operation.type === "expenses"){
+      gastos += operation.amount
+    }else{
+      ganancias = 0
+    }
+    if(operation.type === "earnings"){
+      ganancias += operation.amount
+    }else{
+      gastos = 0
+    }
+    total = ganancias - gastos
+  }
+  return{
+    mes,
+    gastos,
+    ganancias,
+    total
+  }
+}
+console.log(totalPorMes())
+console.log(mes)
+console.log(gastos)
+console.log(ganancias)
+console.log(total)
+
 
 
 const renderCategoriesReports = () => {
