@@ -229,6 +229,21 @@ const amountAndEarning = () => {
 amountAndEarning()
 
 /*FUNCTIONS TO REPORTS SECTION________________________________________________________*/
+const reportsFunctions = () => {
+  const currenData = getData("operations")
+  if(currenData.length>2  && currenData.type === "earnings" && currenData.type === "expenses"){
+    hideElement(["#reports-div"])
+    amountByCategories()
+    earningsByCategories()
+    expensesByCategories()
+    earningMonth()
+    expenseMonth()
+  }else{
+    showElement(["#reports-div"])
+    hideElement(["#current-reports"])
+  }
+}
+reportsFunctions()
 
 let categoryMoreBalance = ""
 let categoryBalance = 0
@@ -333,43 +348,78 @@ accCategoriesMoreExpenses = {}
     }
 //_________________________________________________________________END OF CATOGORY MORE EXPENSES
 
-let gananciasTotalesPorMes = {}
-const gananciasPorMes = () => {
+let monthMoreEarning = {}
+const earningMonth = () => {
   const operaciones = getData("operations")
 for (const operacion of operaciones) {
-  let nuevaFecha = new Date(operacion.date)
-   const fechaMes = nuevaFecha.getMonth()+1 + "/" + nuevaFecha.getFullYear()
+  let currentNewDate = new Date(operacion.date)
+   const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
    //console.log(fechaMes)
-   if (!gananciasTotalesPorMes[fechaMes]) {
-    gananciasTotalesPorMes[fechaMes] = 0
+   if (!monthMoreEarning[dateMonth]) {
+    monthMoreEarning[dateMonth] = 0
   }
    if (operacion.type === "earnings") {
-      gananciasTotalesPorMes[fechaMes] += operacion.amount
+    monthMoreEarning[dateMonth] += operacion.amount
    }
 }
-return gananciasTotalesPorMes
+return monthMoreEarning
 }
-console.log(gananciasPorMes())
+earningMonth()
 
-let mesMayorGanancia = ""
- let gananciaDeMeSMayorGanancia = 0
-  for (const key in gananciasTotalesPorMes){
-    if (gananciasTotalesPorMes[key] > gananciaDeMeSMayorGanancia){
-      mesMayorGanancia = [key]
+
+
+let monthEarning = ""
+ let amountMonthMoreEarning = 0
+  for (const key in monthMoreEarning){
+    if (monthMoreEarning[key] > amountMonthMoreEarning){
+      amountMonthMoreEarning = monthMoreEarning[key]
+      monthEarning = [key]
     } 
   }
-  console.log(mesMayorGanancia)
+  
+//__________________________________________________________________________
+ 
+let monthMoreExpense = {}
+const expenseMonth = () => {
+  const operaciones = getData("operations")
+for (const operacion of operaciones) {
+  let currentNewDate = new Date(operacion.date)
+   const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
+   if (!monthMoreExpense[dateMonth]) {
+    monthMoreExpense[dateMonth] = 0
+  }
+   if (operacion.type === "expenses") {
+    monthMoreExpense[dateMonth] += operacion.amount
+   }
+}
+return monthMoreExpense
+}
+expenseMonth()
 
 
+
+let monthExpense= ""
+ let amountMonthMoreExpense = 0
+  for (const key in monthMoreEarning){
+    if (monthMoreExpense[key] > amountMonthMoreExpense){
+      amountMonthMoreExpense = monthMoreExpense[key]
+      monthExpense = [key]
+    } 
+  }
+  console.log(amountMonthMoreExpense)
 
 
 const renderCategoriesReports = () => {
   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
   $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
   $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
-  $("#amount-category-more-expenses").innerText = `$${categoryAmountExpenses}`
+  $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
   $("#category-more-balance").innerText = `${categoryMoreBalance}`
   $("#amount-category-more-balance").innerText = `$${categoryBalance}`
+  $("#month-more-earning").innerText = `${monthEarning}`
+  $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
+  $("#month-more-expense").innerText = `${monthExpense}`
+  $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
 }
  renderCategoriesReports()
 
