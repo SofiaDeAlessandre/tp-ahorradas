@@ -229,21 +229,7 @@ const amountAndEarning = () => {
 amountAndEarning()
 
 /*FUNCTIONS TO REPORTS SECTION________________________________________________________*/
-// const reportsFunctions = () => {
-//   const currenData = getData("operations")
-//   if(currenData.length>2){
-//     hideElement(["#reports-div"])
-//     amountByCategories()
-//     earningsByCategories()
-//     expensesByCategories()
-//     earningMonth()
-//     expenseMonth()
-//   }else{
-//     showElement(["#reports-div"])
-//     hideElement(["#current-reports"])
-//   }
-// }
-// reportsFunctions()
+
 
 let categoryMoreBalance = ""
 let categoryBalance = 0
@@ -251,7 +237,6 @@ let accCategories = {}
 const amountByCategories = () => {
   const currentOperations = getData("operations")
   const currentCategories = getData("categories")
-  
   for (const operation of currentOperations){
     const categoryId = operation.category
     const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
@@ -262,24 +247,25 @@ const amountByCategories = () => {
       }
       if(operation.type === "expenses"){
       accCategories[categoryName] += -operation.amount
-      
       }
        else{
       accCategories[categoryName] += operation.amount
-      
       }
     }
-    
-  }
+  } 
   return accCategories
 }
-amountByCategories()
+console.log(amountByCategories())
+
   for (const key in accCategories){
+    console.log(accCategories[key])
     if (accCategories[key] > categoryBalance){
       categoryBalance = (accCategories[key])
       categoryMoreBalance = [key]
-    }
   }
+}
+  
+
 //____________________________________________________END OF CATEGORY MORE BALANCE 
 let categoryMoreEarnings = ""
 let categoryAmount = 0
@@ -410,68 +396,6 @@ let monthExpense= ""
 
 
 
-  //__________________________________________________________________________________
-  //PRUEBA DE TOTALES DE MES
-  // let monthBalance = {}
-  // let monthEarnings = 0
-  // let monthExpenses = 0
-  // let monthBalanceTotal = 0
-  // const totalMonth = () => {
-  //   const currenData = getData("operations")
-  // for (const operation of currenData) {
-  //   let currentNewDate = new Date(currenData.date)
-  //    const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
-  //    if (!monthBalance[dateMonth]) {
-  //     monthBalance[dateMonth] = 0
-  //   }
-  //    if (operation.type === "earnings") {
-  //     monthMoreEarning[dateMonth] += operation.amount
-  //     monthEarnings = monthMoreEarning[dateMonth]
-  //    }
-  //    if (operation.type === "expenses") {
-  //     monthMoreEarning[dateMonth] += operation.amount
-  //    }
-  // }
-  // return monthBalance
-  // }
-  // console.log(monthBalance)
-  // totalMonth()
-  //_____________________________________________________________PRUEBA 2 TOTAL DE MES
-  let gastos = 0
-  let ganancias = 0
-  let total = 0
-
-const totalPorMes = () => {
-  const currentData = getData("operations")
-  for (const operation of currentData) {
-    mes = operation.date
-    if(operation.type === "expenses"){
-      gastos += operation.amount
-    }else{
-      ganancias = 0
-    }
-    if(operation.type === "earnings"){
-      ganancias += operation.amount
-    }else{
-      gastos = 0
-    }
-    total = ganancias - gastos
-  }
-  return{
-    mes,
-    gastos,
-    ganancias,
-    total
-  }
-}
-console.log(totalPorMes())
-console.log(mes)
-console.log(gastos)
-console.log(ganancias)
-console.log(total)
-
-
-
 const renderCategoriesReports = () => {
   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
   $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
@@ -485,6 +409,26 @@ const renderCategoriesReports = () => {
   $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
 }
  renderCategoriesReports()
+//___________________________________________________________________________________
+
+// const reportsFunctions = () => {
+//   const currenData = getData("operations")
+//   let earningOperation = currenData.some((operation) => operation.type === "earnings")
+//   let expenseOperation = currenData.some((operation) => operation.type === "expenses")
+//   if(earningOperation && expenseOperation){
+//     hideElement(["#reports-div"])
+//     amountByCategories()
+//     earningsByCategories()
+//     expensesByCategories()
+//     earningMonth()
+//     expenseMonth()
+//   }else{
+//     showElement(["#reports-div"])
+//     hideElement(["#current-reports"])
+//   }
+// }
+// reportsFunctions()
+
 
 
 //________________________________________________________________________
@@ -499,15 +443,8 @@ const renderBalance = () => {
 }
 }
 
-
 renderBalance()
 
-// const operationsFilteredCategories = (arrFilteredOperation, catId) => {
-//   //console.log(arrFilteredOperation, catId)
-//  const operationAndCategory = arrFilteredOperation.filter(arrFilteredOperation => arrFilteredOperation.category === catId.id)
-//  console.log(operationAndCategory)
-//  return operationAndCategory
-// }
 
 /* EVENTS*/
 
@@ -522,8 +459,16 @@ const initialize = () => {
     hideElement(["#main-view","#reports-div","#form-new-operation"])
   })
  $("#reports-link").addEventListener("click", () => {
-    showElement(["#reports-div", "#current-reports"]);
+  const currenData = getData("operations")
+  let earningOperation = currenData.some((operation) => operation.type === "earnings")
+  let expenseOperation = currenData.some((operation) => operation.type === "expenses")
+  if(earningOperation && expenseOperation){
+    showElement(["#current-reports"]);
+    hideElement(["#reports-div","#main-view","#category-container","#form-new-operation"]);
+  } else{
+    showElement(["#reports-div"])
     hideElement(["#main-view","#category-container","#form-new-operation"]);
+  }
   })
   $("#btn-new-operation").addEventListener("click", () => {
     showElement(["#form-new-operation"]);
