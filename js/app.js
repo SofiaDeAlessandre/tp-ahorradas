@@ -321,17 +321,18 @@ accCategoriesMoreExpenses = {}
         }
       }
     }
-    return accCategoriesMoreExpenses
-  }
-  
- expensesByCategories()
-
- for (const key in accCategoriesMoreExpenses){
+    for (const key in accCategoriesMoreExpenses){
       if (accCategoriesMoreExpenses[key] > categoryAmountExpenses){
         categoryAmountExpenses = (accCategoriesMoreExpenses[key])
         categoryMoreExpenses = [key]
       }
     }
+    return accCategoriesMoreExpenses
+  }
+  
+ expensesByCategories()
+
+ 
 //_________________________________________________________________END OF CATOGORY MORE EXPENSES
 
 let monthMoreEarning = {}
@@ -393,8 +394,52 @@ let monthExpense= ""
     } 
   }
   //console.log(amountMonthMoreExpense)
+//____________________________________________________________________
+const totalsByMonth = () => {
+  const currenData = getData("operations")
+  console.log(currenData)
+  const totalByMonth = {}
+  for (const { date, amount, type } of currenData) {
+      const splitDate = date.split("-")
+      const formatDate = splitDate[1] + "/" + splitDate[0]
+      if (!totalByMonth[formatDate]) {
+          totalByMonth[formatDate] = {
+              earning: 0,
+              spent: 0,
+              balance: 0
+          }
+      }
+      if (type === "earnings") {
+          totalByMonth[formatDate].earning += amount
+      } else {
+          totalByMonth[formatDate].spent -= amount
+      }
+      totalByMonth[formatDate].balance = totalByMonth[formatDate].earning + totalByMonth[formatDate].spent
+   }
+  return totalByMonth
+ }
 
+console.log(totalsByMonth())
 
+const renderTotalsByMonth = (obTtotal) => {
+  const currenData = getData ("operations")
+  const keyObTotal = Object.keys(obTtotal)
+  const value = Object.values(obTtotal)
+  console.log(value)
+  for (const val of value){
+    console.log(keyObTotal)
+$("#tbody-table-total-month-reports").innerHTML += `
+<tr>
+<td>${keyObTotal}</td>
+<td>${val.earning}</td>
+<td>${val.spent}</td>
+<td>${val.balance}</td>
+</tr>
+`
+}
+}
+renderTotalsByMonth(totalsByMonth())
+//________________________________________________
 
 const renderCategoriesReports = () => {
   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
