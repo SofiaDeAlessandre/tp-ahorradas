@@ -397,7 +397,6 @@ let monthExpense= ""
 //____________________________________________________________________
 const totalsByMonth = () => {
   const currenData = getData("operations")
-  console.log(currenData)
   const totalByMonth = {}
   for (const { date, amount, type } of currenData) {
       const splitDate = date.split("-")
@@ -419,26 +418,67 @@ const totalsByMonth = () => {
   return totalByMonth
  }
 
-console.log(totalsByMonth())
+totalsByMonth()
 
 const renderTotalsByMonth = (obTtotal) => {
   const currenData = getData ("operations")
-  const keyObTotal = Object.keys(obTtotal)
-  const value = Object.values(obTtotal)
-  console.log(value)
-  for (const val of value){
-    console.log(keyObTotal)
-$("#tbody-table-total-month-reports").innerHTML += `
+for (const key in obTtotal) {
+  $("#tbody-table-total-month-reports").innerHTML += `
 <tr>
-<td>${keyObTotal}</td>
-<td>${val.earning}</td>
-<td>${val.spent}</td>
-<td>${val.balance}</td>
+<td>${key}</td>
+<td>${obTtotal[key].earning}</td>
+<td>${obTtotal[key].spent}</td>
+<td>${obTtotal[key].balance}</td>
 </tr>
 `
 }
 }
 renderTotalsByMonth(totalsByMonth())
+//_______________________________________________________TOTALS BY CATEGORIES
+const totalsByCategories = () => {
+  const categoriesName = {}
+  const currentOperations = getData("operations")
+  const currentCategories = getData("categories")
+  for (const operation of currentOperations){
+    const categoryId = operation.category
+    const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
+    if (categoriaEncontrada) {
+      const categoryName = categoriaEncontrada.categoryName
+      if (!categoriesName[categoryName]) {
+        categoriesName[categoryName] = {
+          earning: 0,
+          spent: 0,
+          balance: 0
+        }
+      }
+      if(operation.type === "earnings"){
+        categoriesName[categoryName].earning += operation.amount 
+        }
+        else{
+          categoriesName[categoryName].spent += -operation.amount
+        }
+        categoriesName[categoryName].balance = categoriesName[categoryName].earning + categoriesName[categoryName].spent
+    }
+
+}
+return categoriesName
+}
+console.log(totalsByCategories())
+
+const renderTotalByCastegories = (obTotalCategories) =>{
+const currenDataOperations = getData("operations")
+for (const key in obTotalCategories){
+$("#tbody-table-total-categories").innerHTML += `
+<tr>
+<td>${key}</td>
+<td>${obTotalCategories[key].earning}</td>
+<td>${obTotalCategories[key].spent}</td>
+<td>${obTotalCategories[key].balance}</td>
+</tr>
+`
+}
+}
+renderTotalByCastegories(totalsByCategories())
 //________________________________________________
 
 const renderCategoriesReports = () => {
