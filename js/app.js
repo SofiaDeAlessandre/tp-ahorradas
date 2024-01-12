@@ -36,7 +36,7 @@ const defaultCategories = [
   },
   {
       id: randomId(),
-      categoryName: "Educación"
+      categoryName: "EducaciÃ³n"
   },
   {
     id: randomId(),
@@ -54,6 +54,9 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const allOperations = getData("operations") || []
 const allCategories = getData("categories") || defaultCategories
+
+let filteredOperation = [] 
+let filteredCategory = []
 
 let currentDate = new Date().toJSON().slice(0, 10);
 const convertDate = (dateString) => {
@@ -154,7 +157,6 @@ const addCategory = () => {
   hideElement(["#edit-categories-title"])
   const currentCategories = getData("categories")
   const newCategory = saveCategoryData()
-  console.log(newCategory)
   currentCategories.push(newCategory)
   setData("categories", currentCategories)
   renderCategoriesTable(currentCategories)
@@ -180,7 +182,6 @@ const showFormCategory = (categoryId) => {
   $("#input-categories").value = categorySelected.categoryName
 }
 
-// el boton de EDITAR recarga el navegador, consultar si el evento va en eventos. 
 
 const deleteOperations = (operationId) => {
   const currentData = getData("operations").filter(op => op.id !== operationId)
@@ -225,8 +226,91 @@ const amountAndEarning = () => {
 }
 amountAndEarning()
 
-/*FUNCTIONS TO REPORTS SECTION________________________________________________________*/
 
+const amountAndEarningFilt = () => {
+  if (getData("categories")){
+  const currentDataOperations = filterOperation()
+  let earnings = 0
+  let expenses = 0
+  let total = 0
+  for (const operation of currentDataOperations) {
+    if (operation.type === "expenses") {
+      expenses += operation.amount
+        } else {
+          earnings += operation.amount
+        } 
+  }
+  total = earnings - expenses
+
+  return {
+    earnings: earnings,
+    expenses: expenses ,
+    total: total
+  }
+}
+}
+
+
+// FILTERS
+
+const filterType = (filter, operations) => {
+  if(filter === "all"){
+    return operations
+  } else {
+   operations = operations.filter(operation => operation.type === filter)
+  }
+  return operations
+}
+
+const filterCategory = (filter, operations) => {
+  if(filter === "all") {
+    return operations
+  } else {
+  operations = operations.filter(operation => operation.category === filter)
+}
+return operations
+}
+
+const filterDate = (filter, operations) => { 
+  operations = operations.filter(operation => convertDate(operation.date) >= filter)
+  return operations
+}
+
+  const filterOrder = (filter, operations) => {
+  switch (filter) {
+    case 'more-recent':
+      operations = operations.sort((a, b) => convertDate(b.date) - convertDate(a.date))
+      break
+    case 'less-recent':
+      operations = operations.sort((a, b) => convertDate(a.date) - convertDate(b.date))
+      break
+    case 'higher-amount':
+      operations = operations.sort((a, b) => b.amount - a.amount)
+      break
+      case 'lower-amount':
+        operations = operations.sort((a, b) => a.amount - b.amount)
+        break
+        case 'from-a':
+          operations = operations.sort((a, b) => a.description.localeCompare(b.description))
+          break
+          case 'from-z':
+            operations = operations.sort((a, b) => b.description.localeCompare(a.description))
+      break
+  }
+  return operations
+  }
+
+
+  const filterOperation = () => {
+    let filteredOperations = [...allOperations]
+    filteredOperations = filterType($("#select-type").value, filteredOperations)
+    filteredOperations = filterCategory($("#categories-select").value, filteredOperations)
+    filteredOperations = filterDate(convertDate($("#since-date").value), filteredOperations)
+    filteredOperations = filterOrder($("#filter-order").value, filteredOperations)
+    return filteredOperations
+    }
+    
+/*FUNCTIONS TO REPORTS SECTION________________________________________________________*/
 
 let categoryMoreBalance = ""
 let categoryBalance = 0
@@ -253,11 +337,9 @@ const amountByCategories = () => {
   } 
   return accCategories
 }
-}
-console.log(amountByCategories())
+amountByCategories()
 
   for (const key in accCategories){
-    console.log(accCategories[key])
     if (accCategories[key] > categoryBalance){
       categoryBalance = (accCategories[key])
       categoryMoreBalance = [key]
@@ -447,6 +529,9 @@ for (const key in obTtotal) {
 <td class="text-green-500 font-semibold">$${obTtotal[key].earning}</td>
 <td class="text-red-500 font-semibold">$${obTtotal[key].spent}</td>
 <td>$${obTtotal[key].balance}</td>
+<td class="text-green-500 font-semibold">$${obTtotal[key].earning}</td>
+<td class="text-red-500 font-semibold">$${obTtotal[key].spent}</td>
+<td>$${obTtotal[key].balance}</td>
 </tr>
 `
 }
@@ -483,9 +568,9 @@ const totalsByCategories = () => {
 return categoriesName
 }
 }
-console.log(totalsByCategories())
+totalsByCategories()
 
-const renderTotalByCastegories = (obTotalCategories) =>{
+const renderTotalByCategories = (obTotalCategories) =>{
 const currenDataOperations = getData("operations")
 for (const key in obTotalCategories){
 $("#tbody-table-total-categories").innerHTML += `
@@ -494,11 +579,31 @@ $("#tbody-table-total-categories").innerHTML += `
 <td class="text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
 <td class="text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
 <td>$${obTotalCategories[key].balance}</td>
+<td class="text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
+<td class="text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
+<td>$${obTotalCategories[key].balance}</td>
 </tr>
 `
 }
 }
-renderTotalByCastegories(totalsByCategories())
+renderTotalByCategories(totalsByCategories())
+//________________________________________________
+
+const renderCategoriesReports = () => {
+  $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
+  $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
+  $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
+  $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
+  $("#category-more-balance").innerText = `${categoryMoreBalance}`
+  $("#amount-category-more-balance").innerText = `$${categoryBalance}`
+  $("#month-more-earning").innerText = `${monthEarning}`
+  $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
+  $("#month-more-expense").innerText = `${monthExpense}`
+  $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
+}
+ renderCategoriesReports()
+//___________________________________________________________________________________
+
 
 const renderBalance = () => {
   if(getData("categories")){
@@ -512,65 +617,15 @@ const renderBalance = () => {
 
 renderBalance()
 
-// FILTERS 
-
-const filterType = (filter, operations) => {
-  if(filter === "all"){
-    return operations
-  } else {
-   operations = operations.filter(operation => operation.type === filter)
-  }
-  return operations
+const renderBalanceFilt = () => {
+  if(getData("categories")){
+  const funcionAmount  = amountAndEarningFilt()
+  $("#earnings-container").innerText = `$${funcionAmount.earnings}`
+  $("#expenses-container").innerText = `-$${funcionAmount.expenses}`
+  $("#total-container").innerText = `$${funcionAmount.total}`;
+  $("#total-container").classList.add(funcionAmount.total >= 0 ? "text-green-500" : "text-red-500")
 }
-
-const filterCategory = (filter, operations) => {
-  if(filter === "all") {
-    return operations
-  } else {
-  operations = operations.filter(operation => operation.category === filter)
 }
-return operations
-}
-
-const filterDate = (filter, operations) => { 
-  operations = operations.filter(operation => convertDate(operation.date) >= filter)
-  return operations
-}
-
-  const filterOrder = (filter, operations) => {
-  switch (filter) {
-    case 'more-recent':
-      operations = operations.sort((a, b) => convertDate(b.date) - convertDate(a.date))
-      break
-    case 'less-recent':
-      operations = operations.sort((a, b) => convertDate(a.date) - convertDate(b.date))
-      break
-    case 'higher-amount':
-      operations = operations.sort((a, b) => b.amount - a.amount)
-      break
-      case 'lower-amount':
-        operations = operations.sort((a, b) => a.amount - b.amount)
-        break
-        case 'from-a':
-          operations = operations.sort((a, b) => a.description.localeCompare(b.description))
-          break
-          case 'from-z':
-            operations = operations.sort((a, b) => b.description.localeCompare(a.description))
-      break
-  }
-  return operations
-  }
-
-
-  const filterOperation = () => {
-    let filteredOperations = [...allOperations]
-    filteredOperations = filterType($("#select-type").value, filteredOperations)
-    filteredOperations = filterCategory($("#categories-select").value, filteredOperations)
-    filteredOperations = filterDate(convertDate($("#since-date").value), filteredOperations)
-    filteredOperations = filterOrder($("#filter-order").value, filteredOperations)
-    return filteredOperations
-    }
-    
 
 /* EVENTS*/
 
@@ -600,6 +655,9 @@ const initialize = () => {
     showElement(["#form-new-operation"]);
     hideElement(["#main-view","#btn-edit-operation"]);
   })
+  // $("#form-new-operation").addEventListener("click", (e) => {
+  //   e.preventDefault();
+  // });
 
 $("#icon-nav").addEventListener("click", () => {
   showElement(["#list-nav","#list-nav","#close-nav"])
@@ -686,24 +744,35 @@ $("#categories-nav").addEventListener("click", () => {
 
 $("#select-type").addEventListener("change", () => {
   renderOperations(filterOperation())
+  amountAndEarningFilt()
+  renderBalanceFilt()
 })
 
 $("#categories-select").addEventListener("change", () => {
   renderOperations(filterOperation())
+  amountAndEarningFilt()
+  renderBalanceFilt()
 })
 
 $("#since-date").addEventListener("change", () => {
   renderOperations(filterOperation())
+  amountAndEarningFilt()
+  renderBalanceFilt()
 })
 
 $("#filter-order").addEventListener("change", () => {
   renderOperations(filterOperation())
+  amountAndEarningFilt()
+  renderBalanceFilt()
 })
+
 
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 window.addEventListener("load", initialize);
+
+
 
 
 
