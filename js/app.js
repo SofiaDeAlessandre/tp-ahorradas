@@ -337,6 +337,7 @@ const amountByCategories = () => {
   } 
   return accCategories
 }
+}
 amountByCategories()
 
   for (const key in accCategories){
@@ -492,7 +493,6 @@ let monthExpense= ""
       $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
     }
      renderCategoriesReports()
-
 //____________________________________________________________________
 const totalsByMonth = () => {
   const currenData = getData("operations")
@@ -525,13 +525,10 @@ const renderTotalsByMonth = (obTtotal) => {
 for (const key in obTtotal) {
   $("#tbody-table-total-month-reports").innerHTML += `
 <tr>
-<td>${key}</td>
-<td class="text-green-500 font-semibold">$${obTtotal[key].earning}</td>
-<td class="text-red-500 font-semibold">$${obTtotal[key].spent}</td>
-<td>$${obTtotal[key].balance}</td>
-<td class="text-green-500 font-semibold">$${obTtotal[key].earning}</td>
-<td class="text-red-500 font-semibold">$${obTtotal[key].spent}</td>
-<td>$${obTtotal[key].balance}</td>
+<td class="text-center">${key}</td>
+<td class="text-center text-green-500 font-semibold">$${obTtotal[key].earning}</td>
+<td class="text-center text-red-500 font-semibold">$${obTtotal[key].spent}</td>
+<td class="text-center">$${obTtotal[key].balance}</td>
 </tr>
 `
 }
@@ -575,35 +572,16 @@ const currenDataOperations = getData("operations")
 for (const key in obTotalCategories){
 $("#tbody-table-total-categories").innerHTML += `
 <tr>
-<td>${key}</td>
-<td class="text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
-<td class="text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
-<td>$${obTotalCategories[key].balance}</td>
-<td class="text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
-<td class="text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
-<td>$${obTotalCategories[key].balance}</td>
+<td class="text-center">${key}</td>
+<td class="text-center text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
+<td class="text-center text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
+<td class="text-center">$${obTotalCategories[key].balance}</td>
 </tr>
 `
 }
 }
 renderTotalByCategories(totalsByCategories())
 //________________________________________________
-
-const renderCategoriesReports = () => {
-  $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
-  $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
-  $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
-  $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
-  $("#category-more-balance").innerText = `${categoryMoreBalance}`
-  $("#amount-category-more-balance").innerText = `$${categoryBalance}`
-  $("#month-more-earning").innerText = `${monthEarning}`
-  $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
-  $("#month-more-expense").innerText = `${monthExpense}`
-  $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
-}
- renderCategoriesReports()
-//___________________________________________________________________________________
-
 
 const renderBalance = () => {
   if(getData("categories")){
