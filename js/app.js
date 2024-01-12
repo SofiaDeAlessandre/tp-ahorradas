@@ -499,23 +499,6 @@ $("#tbody-table-total-categories").innerHTML += `
 }
 }
 renderTotalByCastegories(totalsByCategories())
-//________________________________________________
-
-// const renderCategoriesReports = () => {
-//   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
-//   $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
-//   $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
-//   $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
-//   $("#category-more-balance").innerText = `${categoryMoreBalance}`
-//   $("#amount-category-more-balance").innerText = `$${categoryBalance}`
-//   $("#month-more-earning").innerText = `${monthEarning}`
-//   $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
-//   $("#month-more-expense").innerText = `${monthExpense}`
-//   $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
-// }
-//  renderCategoriesReports()
-//___________________________________________________________________________________
-
 
 const renderBalance = () => {
   if(getData("categories")){
