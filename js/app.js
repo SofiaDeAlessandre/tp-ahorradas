@@ -55,9 +55,6 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 const allOperations = getData("operations") || []
 const allCategories = getData("categories") || defaultCategories
 
-let filteredOperation = [] 
-let filteredCategory = []
-
 let currentDate = new Date().toJSON().slice(0, 10);
 const convertDate = (dateString) => {
   const convertedDate = dateString.replace(/-/g, '');
@@ -75,7 +72,7 @@ const cleanContainer = (selector) => $(selector).innerHTML = ""
 /* RENDERS */
 
 const renderOperations = (operations) => {
-  // cleanContainer("#tableOperations")
+  cleanContainer("#tableOperations")
   if(operations.length) {
     showElement(["#tableOperations"])
     hideElement(["#no-results"])
@@ -532,6 +529,65 @@ const renderBalance = () => {
 
 renderBalance()
 
+// FILTERS 
+
+const filterType = (filter, operations) => {
+  if(filter === "all"){
+    return operations
+  } else {
+   operations = operations.filter(operation => operation.type === filter)
+  }
+  return operations
+}
+
+const filterCategory = (filter, operations) => {
+  if(filter === "all") {
+    return operations
+  } else {
+  operations = operations.filter(operation => operation.category === filter)
+}
+return operations
+}
+
+const filterDate = (filter, operations) => { 
+  operations = operations.filter(operation => convertDate(operation.date) >= filter)
+  return operations
+}
+
+  const filterOrder = (filter, operations) => {
+  switch (filter) {
+    case 'more-recent':
+      operations = operations.sort((a, b) => convertDate(b.date) - convertDate(a.date))
+      break
+    case 'less-recent':
+      operations = operations.sort((a, b) => convertDate(a.date) - convertDate(b.date))
+      break
+    case 'higher-amount':
+      operations = operations.sort((a, b) => b.amount - a.amount)
+      break
+      case 'lower-amount':
+        operations = operations.sort((a, b) => a.amount - b.amount)
+        break
+        case 'from-a':
+          operations = operations.sort((a, b) => a.description.localeCompare(b.description))
+          break
+          case 'from-z':
+            operations = operations.sort((a, b) => b.description.localeCompare(a.description))
+      break
+  }
+  return operations
+  }
+
+
+  const filterOperation = () => {
+    let filteredOperations = [...allOperations]
+    filteredOperations = filterType($("#select-type").value, filteredOperations)
+    filteredOperations = filterCategory($("#categories-select").value, filteredOperations)
+    filteredOperations = filterDate(convertDate($("#since-date").value), filteredOperations)
+    filteredOperations = filterOrder($("#filter-order").value, filteredOperations)
+    return filteredOperations
+    }
+    
 
 /* EVENTS*/
 
@@ -643,127 +699,24 @@ $("#categories-nav").addEventListener("click", () => {
   hideElement(["#main-view","#reports-div","#form-new-operation"]);
 })
 
-$("#select-type").addEventListener("input", (e) => {
-  const typeSelected = e.target.value
-  const currentData = getData("operations")
-  if(typeSelected!=="all"){
-  const filteredOperations = currentData.filter(operation => operation.type == typeSelected)
-  filteredOperation = filteredOperations
-  cleanContainer("#tableOperations")
-   renderOperations(filteredOperations)
-  }
-  else {
-    cleanContainer("#tableOperations")
-    renderOperations(currentData)
-  }
+// FILTERSSSSSSSSSSS
+
+$("#select-type").addEventListener("change", () => {
+  renderOperations(filterOperation())
 })
 
-$("#categories-select").addEventListener("input", (e) => {
-  const categoriesId = e.target.value
-  if(categoriesId !== "all") {
-  const currentData = getData ("operations")
-  filteredCategory = currentData
-  const filteredOperations = filteredCategory.filter(operation => operation.category === categoriesId)
-  cleanContainer("#tableOperations")
-  renderOperations(filteredOperations)}
+$("#categories-select").addEventListener("change", () => {
+  renderOperations(filterOperation())
 })
 
-$("#since-date").addEventListener("input", (e) => {
-  let dateSelected = e.target.value
-  dateSelected = convertDate(dateSelected)
-  let filteredDates = []
-  const currentData = getData ("operations")
-  filteredDates = currentData
-  const sinceDates = currentData.filter(operation => convertDate(operation.date) >= dateSelected)
-  filteredDates = sinceDates
-  cleanContainer("#tableOperations")
-  renderOperations(filteredDates)
+$("#since-date").addEventListener("change", () => {
+  renderOperations(filterOperation())
 })
 
-  const moreRecent = () => {
-    let currentData = getData("operations")
-    let filteredDates = currentData.map(operation => convertDate(operation.date))
-    let operationsByDate = []
-    let processedDates = new Set()
-    for (let i = 0; i < currentData.length; i++) {
-      if (!processedDates.has(filteredDates[i])){
-            const filteredOperations = currentData.filter(operation => convertDate(operation.date) === filteredDates[i])
-            operationsByDate.push(...filteredOperations)
-            processedDates.add(filteredDates[i])
-        }
-      }
-    return operationsByDate
-}
-
-const lessRecent = () => {
-  let currentData = getData("operations")
-  let filteredDates = currentData.map(operation => convertDate(operation.date))
-  filteredDates.sort(function (a, b) { return a - b})
-  let operationsByDate = []
-  let processedDates = new Set()
-  for (let i = 0; i < currentData.length; i++) {
-    if (!processedDates.has(filteredDates[i])){
-          const filteredOperations = currentData.filter(operation => convertDate(operation.date) === filteredDates[i])
-          operationsByDate.push(...filteredOperations)
-          processedDates.add(filteredDates[i])
-      }
-    }
-  return operationsByDate
-}
-
-const higherAmount = () => {
-  let currentData = getData("operations")
-  currentData.sort((a, b) => b.amount - a.amount)
-  return currentData
-}
-
-const lowerAmount = () => {
-  let currentData = getData("operations")
-  currentData.sort((a, b) => a.amount - b.amount)
-  return currentData
-}
-
-const fromA = () => {
-  let currentData = getData("operations")
-  currentData.sort((a, b) => a.description.localeCompare(b.description))
-  return currentData
-}
-
-const fromZ = () => {
-  let currentData = getData("operations")
-  currentData.sort((a, b) => b.description.localeCompare(a.description))
-  return currentData
-}
-
-$("#filter-order").addEventListener("input", (e) => {
-  let orderSelected = e.target.value
-  const expr = orderSelected;
-switch (expr) {
-  case 'less-recent':
-    cleanContainer("#tableOperations")
-    renderOperations(lessRecent())
-    break
-  case 'higher-amount':
-    cleanContainer("#tableOperations")
-    renderOperations(higherAmount())
-    break
-    case 'lower-amount':
-      cleanContainer("#tableOperations")
-      renderOperations(lowerAmount())
-      break
-      case 'from-a':
-        cleanContainer("#tableOperations")
-        renderOperations(fromA())
-        break
-        case 'from-z':
-          cleanContainer("#tableOperations")
-        renderOperations(fromZ())
-    break;
-  default:
-    cleanContainer("#tableOperations")
-    renderOperations(moreRecent())
-}
+$("#filter-order").addEventListener("change", () => {
+  renderOperations(filterOperation())
 })
+
 
 }; // END OF INITIALIZEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
