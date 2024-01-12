@@ -237,11 +237,12 @@ let accCategories = {}
 const amountByCategories = () => {
   const currentOperations = getData("operations")
   const currentCategories = getData("categories")
+  if(getData("operations")){
   for (const operation of currentOperations){
     const categoryId = operation.category
-    const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
-    if (categoriaEncontrada) {
-      const categoryName = categoriaEncontrada.categoryName
+    const categoryFound = currentCategories.find(category => category.id === categoryId)
+    if (categoryFound) {
+      const categoryName = categoryFound.categoryName
       if (!accCategories[categoryName]) {
         accCategories[categoryName] = 0
       }
@@ -254,6 +255,7 @@ const amountByCategories = () => {
     }
   } 
   return accCategories
+}
 }
 console.log(amountByCategories())
 
@@ -273,12 +275,12 @@ accCategoriesMoreEarnings = {}
   const earningsByCategories = () => {
     const currentOperations = getData("operations")
     const currentCategories = getData("categories")
-    
+    if(getData("operations")){
     for (const operation of currentOperations){
       const categoryId = operation.category
-      const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
-      if (categoriaEncontrada) {
-        const categoryName = categoriaEncontrada.categoryName
+      const categoryFound = currentCategories.find(category => category.id === categoryId)
+      if (categoryFound) {
+        const categoryName = categoryFound.categoryName
         if (!accCategoriesMoreEarnings[categoryName]) {
           accCategoriesMoreEarnings[categoryName] = 0
         }
@@ -291,6 +293,7 @@ accCategoriesMoreEarnings = {}
     }
     return accCategoriesMoreEarnings
   }
+}
   
  earningsByCategories()
  
@@ -307,12 +310,12 @@ accCategoriesMoreExpenses = {}
   const expensesByCategories = () => {
     const currentOperations = getData("operations")
     const currentCategories = getData("categories")
-    
+    if(getData("operations")){
     for (const operation of currentOperations){
       const categoryId = operation.category
-      const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
-      if (categoriaEncontrada) {
-        const categoryName = categoriaEncontrada.categoryName
+      const categoryFound = currentCategories.find(category => category.id === categoryId)
+      if (categoryFound) {
+        const categoryName = categoryFound.categoryName
         if (!accCategoriesMoreExpenses[categoryName]) {
           accCategoriesMoreExpenses[categoryName] = 0
         }
@@ -329,7 +332,7 @@ accCategoriesMoreExpenses = {}
     }
     return accCategoriesMoreExpenses
   }
-  
+}
  expensesByCategories()
 
  
@@ -338,10 +341,10 @@ accCategoriesMoreExpenses = {}
 let monthMoreEarning = {}
 const earningMonth = () => {
   const operaciones = getData("operations")
+  if(operaciones){
 for (const operacion of operaciones) {
   let currentNewDate = new Date(operacion.date)
    const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
-   //console.log(fechaMes)
    if (!monthMoreEarning[dateMonth]) {
     monthMoreEarning[dateMonth] = 0
   }
@@ -350,6 +353,7 @@ for (const operacion of operaciones) {
    }
 }
 return monthMoreEarning
+}
 }
 earningMonth()
 
@@ -369,6 +373,7 @@ let monthEarning = ""
 let monthMoreExpense = {}
 const expenseMonth = () => {
   const operaciones = getData("operations")
+  if(operaciones){
 for (const operacion of operaciones) {
   let currentNewDate = new Date(operacion.date)
    const dateMonth = currentNewDate.getMonth()+1 + "/" + currentNewDate.getFullYear()
@@ -380,6 +385,7 @@ for (const operacion of operaciones) {
    }
 }
 return monthMoreExpense
+}
 }
 expenseMonth()
 
@@ -393,10 +399,25 @@ let monthExpense= ""
       monthExpense = [key]
     } 
   }
-  //console.log(amountMonthMoreExpense)
+  
+  const renderCategoriesReports = () => {
+      $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
+      $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
+      $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
+      $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
+      $("#category-more-balance").innerText = `${categoryMoreBalance}`
+      $("#amount-category-more-balance").innerText = `$${categoryBalance}`
+      $("#month-more-earning").innerText = `${monthEarning}`
+      $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
+      $("#month-more-expense").innerText = `${monthExpense}`
+      $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
+    }
+     renderCategoriesReports()
+
 //____________________________________________________________________
 const totalsByMonth = () => {
   const currenData = getData("operations")
+  if(currenData){
   const totalByMonth = {}
   for (const { date, amount, type } of currenData) {
       const splitDate = date.split("-")
@@ -417,7 +438,7 @@ const totalsByMonth = () => {
    }
   return totalByMonth
  }
-
+}
 totalsByMonth()
 
 const renderTotalsByMonth = (obTtotal) => {
@@ -426,9 +447,9 @@ for (const key in obTtotal) {
   $("#tbody-table-total-month-reports").innerHTML += `
 <tr>
 <td>${key}</td>
-<td>${obTtotal[key].earning}</td>
-<td>${obTtotal[key].spent}</td>
-<td>${obTtotal[key].balance}</td>
+<td class="text-green-500 font-semibold">$${obTtotal[key].earning}</td>
+<td class="text-red-500 font-semibold">$${obTtotal[key].spent}</td>
+<td>$${obTtotal[key].balance}</td>
 </tr>
 `
 }
@@ -439,11 +460,12 @@ const totalsByCategories = () => {
   const categoriesName = {}
   const currentOperations = getData("operations")
   const currentCategories = getData("categories")
+  if(currentOperations){
   for (const operation of currentOperations){
     const categoryId = operation.category
-    const categoriaEncontrada = currentCategories.find(category => category.id === categoryId)
-    if (categoriaEncontrada) {
-      const categoryName = categoriaEncontrada.categoryName
+    const categoryFound = currentCategories.find(category => category.id === categoryId)
+    if (categoryFound) {
+      const categoryName = categoryFound.categoryName
       if (!categoriesName[categoryName]) {
         categoriesName[categoryName] = {
           earning: 0,
@@ -463,6 +485,7 @@ const totalsByCategories = () => {
 }
 return categoriesName
 }
+}
 console.log(totalsByCategories())
 
 const renderTotalByCastegories = (obTotalCategories) =>{
@@ -471,9 +494,9 @@ for (const key in obTotalCategories){
 $("#tbody-table-total-categories").innerHTML += `
 <tr>
 <td>${key}</td>
-<td>${obTotalCategories[key].earning}</td>
-<td>${obTotalCategories[key].spent}</td>
-<td>${obTotalCategories[key].balance}</td>
+<td class="text-green-500 font-semibold">$${obTotalCategories[key].earning}</td>
+<td class="text-red-500 font-semibold">$${obTotalCategories[key].spent}</td>
+<td>$${obTotalCategories[key].balance}</td>
 </tr>
 `
 }
@@ -481,42 +504,21 @@ $("#tbody-table-total-categories").innerHTML += `
 renderTotalByCastegories(totalsByCategories())
 //________________________________________________
 
-const renderCategoriesReports = () => {
-  $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
-  $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
-  $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
-  $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
-  $("#category-more-balance").innerText = `${categoryMoreBalance}`
-  $("#amount-category-more-balance").innerText = `$${categoryBalance}`
-  $("#month-more-earning").innerText = `${monthEarning}`
-  $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
-  $("#month-more-expense").innerText = `${monthExpense}`
-  $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
-}
- renderCategoriesReports()
+// const renderCategoriesReports = () => {
+//   $("#category-more-earnings").innerText = `${categoryMoreEarnings}` 
+//   $("#amount-category-more-earnings").innerText = `$${categoryAmount}`
+//   $("#category-more-expenses").innerText = `${categoryMoreExpenses}`
+//   $("#amount-category-more-expenses").innerText = `-$${categoryAmountExpenses}`
+//   $("#category-more-balance").innerText = `${categoryMoreBalance}`
+//   $("#amount-category-more-balance").innerText = `$${categoryBalance}`
+//   $("#month-more-earning").innerText = `${monthEarning}`
+//   $("#amount-month-more-earning").innerText = `$${amountMonthMoreEarning}`
+//   $("#month-more-expense").innerText = `${monthExpense}`
+//   $("#amount-month-more-expense").innerText = `-$${amountMonthMoreExpense}`
+// }
+//  renderCategoriesReports()
 //___________________________________________________________________________________
 
-// const reportsFunctions = () => {
-//   const currenData = getData("operations")
-//   let earningOperation = currenData.some((operation) => operation.type === "earnings")
-//   let expenseOperation = currenData.some((operation) => operation.type === "expenses")
-//   if(earningOperation && expenseOperation){
-//     hideElement(["#reports-div"])
-//     amountByCategories()
-//     earningsByCategories()
-//     expensesByCategories()
-//     earningMonth()
-//     expenseMonth()
-//   }else{
-//     showElement(["#reports-div"])
-//     hideElement(["#current-reports"])
-//   }
-// }
-// reportsFunctions()
-
-
-
-//________________________________________________________________________
 
 const renderBalance = () => {
   if(getData("categories")){
@@ -559,9 +561,6 @@ const initialize = () => {
     showElement(["#form-new-operation"]);
     hideElement(["#main-view","#btn-edit-operation"]);
   })
-  // $("#form-new-operation").addEventListener("click", (e) => {
-  //   e.preventDefault();
-  // });
 
 $("#icon-nav").addEventListener("click", () => {
   showElement(["#list-nav","#list-nav","#close-nav"])
