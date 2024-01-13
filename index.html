@@ -298,6 +298,9 @@
             name="description"
             id="description-new-operation"
             placeholder="Descripcion" />
+          <p class="description-error text-red-600 hidden"><i
+              class="fa-sharp fa-solid fa-circle-exclamation me-2"></i>La
+            descripcion no es válida</p>
         </div>
         <div class>
           <label for="amount"
@@ -308,6 +311,9 @@
             name="amount"
             id="amount-new-operation"
             placeholder="0" />
+          <p class="amount-error text-red-600 hidden"><i
+              class="fa-sharp fa-solid fa-circle-exclamation me-2"></i>El monto
+            no es válido</p>
         </div>
         <div class>
           <label for="type"
@@ -341,6 +347,7 @@
             id="btn-cancel-operation">Cancelar</button>
           <button
             class="btn bg-green-400 rounded shadow text-white m-2 p-2"
+            disabled="true"
             id="btn-add-operation">
             Agregar
           </button>

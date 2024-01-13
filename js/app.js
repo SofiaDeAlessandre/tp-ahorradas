@@ -71,7 +71,7 @@ const convertDateFormat = (date) => {
 
 const cleanContainer = (selector) => ($(selector).innerHTML = "");
 
-// RENDERS 
+// RENDERS
 
 const renderOperations = (operations) => {
   cleanContainer("#tableOperations");
@@ -645,6 +645,36 @@ const renderBalanceFilt = () => {
   }
 };
 
+//VALIDATIONS
+
+const validateForm = () => {
+  const description = $("#description-new-operation").value.trim();
+  const amount = $("#amount-new-operation").valueAsNumber;
+  const validationPassed = description != "" && amount != "" && amount > 0;
+
+  if (description == "") {
+    showElement([".description-error"]);
+    $("#description-new-operation").classList.add("border-rose-700");
+  } else {
+    hideElement([".description-error"]);
+    $("#description-new-operation").classList.remove("border-rose-700");
+  }
+
+  if (amount == "" || amount < 0) {
+    showElement([".amount-error"]);
+    $("#amount-new-operation").classList.add("border-rose-700");
+  } else {
+    hideElement([".amount-error"]);
+    $("#amount-new-operation").classList.remove("border-rose-700");
+  }
+
+  if (validationPassed) {
+    $("#btn-add-operation").removeAttribute("disabled");
+  } else {
+    $("#btn-add-operation").setAttribute("disabled", true);
+  }
+};
+
 //EVENTS
 
 const initialize = () => {
@@ -814,6 +844,11 @@ const initialize = () => {
     amountAndEarningFilt();
     renderBalanceFilt();
   });
+
+  $("#description-new-operation").addEventListener("blur", () =>
+    validateForm()
+  );
+  $("#amount-new-operation").addEventListener("blur", () => validateForm());
 };
 
 window.addEventListener("load", initialize);
