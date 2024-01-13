@@ -106,6 +106,7 @@ const renderOperations = (operations) => {
 
 const renderCategoriesTable = (categories) => {
   cleanContainer("#table-tbody");
+  $("#input-categories").value = "";
   for (const category of categories) {
     $("#table-tbody").innerHTML += `
       <tr>
