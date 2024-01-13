@@ -16,20 +16,14 @@ Luciana Zaracho
 January 2024
 
 ![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/0819399d-f9a8-4d2c-b8ac-df59a1c7438a)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/1d539d17-5750-4265-b00a-4370ef4c5ab0)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/2f530d40-c225-4aa1-85a7-263650694e3e)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/678fd1ce-997d-4184-ac4f-30a493707446)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/794e3eaf-bc52-493b-a81b-cdbc945a6c96)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/2f77d614-0c30-4a0a-a0ab-c2b912dadd32)
+![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/ca924780-071a-4c47-bfff-ca1335250a2c)
 
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/4139077b-800e-497f-b019-eb6683f65d37)
 
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/719c4073-e135-4fb2-a56a-8a28852b66f6)
-
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/20a59bee-e8cf-427d-8dab-1d15ddd5e37d)
-
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/a5694536-92be-456f-a790-1fb0f7409a05)
-
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/dc23ecf2-0f67-4c8a-bc33-12e4a567204e)
-
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/ec8cd622-c329-4a0f-a6a9-722532fe290e)
-
-![image](https://github.com/SofiaDeAlessandre/tp-ahorradas/assets/55200459/89157bdd-4362-4561-ae75-bbb73abb5ff5)
 
 
 
