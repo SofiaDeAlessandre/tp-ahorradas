@@ -54,9 +54,6 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 const allOperations = getData("operations") || [];
 const allCategories = getData("categories") || defaultCategories;
 
-let filteredOperation = [];
-let filteredCategory = [];
-
 let currentDate = new Date().toJSON().slice(0, 10);
 const convertDate = (dateString) => {
   const convertedDate = dateString.replace(/-/g, "");
@@ -556,7 +553,6 @@ const totalsByMonth = () => {
 totalsByMonth();
 
 const renderTotalsByMonth = (obTtotal) => {
-  const currenData = getData("operations");
   for (const key in obTtotal) {
     $("#tbody-table-total-month-reports").innerHTML += `
 <tr>
@@ -605,7 +601,6 @@ const totalsByCategories = () => {
 totalsByCategories();
 
 const renderTotalByCategories = (obTotalCategories) => {
-  const currenDataOperations = getData("operations");
   for (const key in obTotalCategories) {
     $("#tbody-table-total-categories").innerHTML += `
 <tr>
@@ -730,7 +725,6 @@ const initialize = () => {
 
   $("#btn-add-operation").addEventListener("click", (e) => {
     e.preventDefault();
-    const newOperation = saveOperations();
     const currentData = getData("operations");
     currentData.push(saveOperations());
     setData("operations", currentData);
